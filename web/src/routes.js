@@ -24,6 +24,10 @@ import ReceitaIndex from './views/Pages/receita';
 import ReceitaEdit from './views/Pages/receita/edit';
 import ReceitaNew from './views/Pages/receita/new';
 
+import DespesaIndex from './views/Pages/despesa';
+import DespesaEdit from './views/Pages/despesa/edit';
+import DespesaNew from './views/Pages/despesa/new';
+
 var routes = [
   {
     path: "/dashio-admin",
@@ -117,6 +121,22 @@ var routes = [
     path: "/dashboard/receita",
     layout: BaseLayout,
     component: ReceitaIndex,
+  },
+
+  {
+    path: "/dashboard/despesa/novo",
+    layout: BaseLayout,
+    component: DespesaNew,
+  },
+  {
+    path: "/dashboard/despesa/editar/:id",
+    layout: BaseLayout,
+    component: DespesaEdit,
+  },
+  {
+    path: "/dashboard/despesa",
+    layout: BaseLayout,
+    component: DespesaIndex,
   },
 ];
 

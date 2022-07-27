@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Card } from "../../../components/Card";
 
-const ReceitaNew = () => {
+const DespesaNew = () => {
   const history = useHistory();
 
   return (
@@ -18,8 +18,8 @@ const ReceitaNew = () => {
         <div style={{marginTop: 20, marginBottom: 20}}>
           <Form className="col-sm-4">
             <Form.Group className="mb-2" controlId="formBasicEmail">
-              <Form.Label>Receita</Form.Label>
-              <Form.Control type="text" placeholder="Digite o nome da receita" />
+              <Form.Label>Despesa</Form.Label>
+              <Form.Control type="text" placeholder="Digite o nome da despesa" />
             </Form.Group>
             <Button variant="primary" type="submit">
               Cadastrar
@@ -32,4 +32,4 @@ const ReceitaNew = () => {
 }
 
 
-export default ReceitaNew;
+export default DespesaNew;

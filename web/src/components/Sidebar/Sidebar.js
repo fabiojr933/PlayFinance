@@ -67,7 +67,21 @@ function Sidebar(props) {
                   <span className="menu-title">Cadastro de receita</span>
                 </Link>
               </li>
-           
+                
+              <li
+                className={
+                  active === "/dashboard/despesa"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/despesa">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Cadastro de despesa</span>
+                </Link>
+              </li>
              
 
               

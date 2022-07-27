@@ -6,15 +6,15 @@ import { Card } from "../../../components/Card";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Table from 'react-bootstrap/Table';
 
-const Receita = () => {
+const Despesa = () => {
 
     const history = useHistory();
 
     return (
         <div className="main-content-container p-4 container-fluid">
             <div >
-                <Button onClick={() => { history.push('/dashboard/receita/novo') }} type="button" className="button button-primary">
-                    Nova receita
+                <Button onClick={() => { history.push('/dashboard/despesa/novo') }} type="button" className="button button-primary">
+                    Nova Despesa
                 </Button><br /><br />
                 <div class="row">
                     <div class="col-lg-12">
@@ -58,4 +58,4 @@ const Receita = () => {
     );
 }
 
-export default Receita;
+export default Despesa;
