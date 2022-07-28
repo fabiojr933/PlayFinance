@@ -28,6 +28,10 @@ import DespesaIndex from './views/Pages/despesa';
 import DespesaEdit from './views/Pages/despesa/edit';
 import DespesaNew from './views/Pages/despesa/new';
 
+import CartaoIndex from './views/Pages/cartao';
+import CartaoEdit from './views/Pages/cartao/edit';
+import CartaoNew from './views/Pages/cartao/new';
+
 var routes = [
   {
     path: "/dashio-admin",
@@ -138,6 +142,23 @@ var routes = [
     layout: BaseLayout,
     component: DespesaIndex,
   },
+
+  {
+    path: "/dashboard/cartao/novo",
+    layout: BaseLayout,
+    component: CartaoNew,
+  },
+  {
+    path: "/dashboard/cartao/editar/:id",
+    layout: BaseLayout,
+    component: CartaoEdit,
+  },
+  {
+    path: "/dashboard/cartao",
+    layout: BaseLayout,
+    component: CartaoIndex,
+  },
+
 ];
 
 export default routes;
