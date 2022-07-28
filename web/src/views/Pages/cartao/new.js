@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { Card } from "../../../components/Card";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-
+import Badge from 'react-bootstrap/Badge';
 
 const CartaoNew = () => {
   const history = useHistory();
@@ -16,7 +16,10 @@ const CartaoNew = () => {
         <Button onClick={() => { history.goBack() }} type="button" className="button button-primary">
           Voltar
         </Button>
-      </div><br /><br />
+      </div><br />
+      <h2 style={{ textAlign: "center" }}>
+        <Badge bg="secondary">Cadastro de conta bancaria</Badge>
+      </h2>
       <Card>
         <div style={{ marginTop: 20, marginBottom: 20 }}>
           <div className="text-center" style={{ paddingLeft: 20, paddingRight: 20 }}>
@@ -46,6 +49,9 @@ const CartaoNew = () => {
                   <Form.Control placeholder="Digite o saldo da conta" />
                 </Col>
               </Row>
+              <Button style={{float: 'left'}} variant="primary" type="submit">
+              Cadastrar
+            </Button>
             </Form>
           </div>
         </div>

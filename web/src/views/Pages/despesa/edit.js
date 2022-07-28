@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Card } from "../../../components/Card";
+import Badge from 'react-bootstrap/Badge';
 
 const DespesaEdit = () => {
   const history = useHistory();
@@ -13,7 +14,10 @@ const DespesaEdit = () => {
         <Button onClick={() => { history.goBack() }} type="button" className="button button-primary">
           Voltar
         </Button>
-      </div><br /><br />
+      </div><br />
+      <h2 style={{ textAlign: "center" }}>
+        <Badge bg="secondary">Editar despesa</Badge>
+      </h2>
       <Card>
         <div style={{ marginTop: 20, marginBottom: 20 }}>
           <Form className="col-sm-4">

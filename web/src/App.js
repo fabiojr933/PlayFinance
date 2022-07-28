@@ -8,6 +8,8 @@ import React, { Component } from "react";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
 import Pages from "./views/Pages/Pages";
+import Login from './views/Pages/login';
+import Register from './views/Pages/register';
 
 import routes from "./routes";
 class App extends Component {
@@ -24,6 +26,8 @@ class App extends Component {
           history={browserHistory}
         >
           <Switch>
+          <Route exact path="/login"> <Login /> </Route>
+          <Route exact path="/register"> <Register /> </Route>
             {routes.map((route, index) => {
               return (
                 <Route

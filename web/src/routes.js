@@ -32,6 +32,8 @@ import CartaoIndex from './views/Pages/cartao';
 import CartaoEdit from './views/Pages/cartao/edit';
 import CartaoNew from './views/Pages/cartao/new';
 
+
+
 var routes = [
   {
     path: "/dashio-admin",
@@ -158,6 +160,8 @@ var routes = [
     layout: BaseLayout,
     component: CartaoIndex,
   },
+
+
 
 ];
 

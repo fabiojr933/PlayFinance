@@ -5,6 +5,7 @@ import { Button } from "../../../components/Button";
 import { Card } from "../../../components/Card";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Table from 'react-bootstrap/Table';
+import Badge from 'react-bootstrap/Badge';
 
 const Receita = () => {
 
@@ -15,7 +16,10 @@ const Receita = () => {
             <div >
                 <Button onClick={() => { history.push('/dashboard/receita/novo') }} type="button" className="button button-primary">
                     Nova receita
-                </Button><br /><br />
+                </Button><br />
+                <h2 style={{ textAlign: "center" }}>
+                    <Badge bg="secondary">Lista de receita</Badge>
+                </h2>
                 <div class="row">
                     <div class="col-lg-12">
                         <Card>
