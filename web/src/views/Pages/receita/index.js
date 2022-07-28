@@ -22,7 +22,7 @@ const Receita = () => {
                 </h2>
                 <div class="row">
                     <div class="col-lg-12">
-                        <Card>
+                        <Card >
 
                             <Table striped bordered hover size="sm">
                                 <thead>
@@ -33,7 +33,7 @@ const Receita = () => {
                                         <th >Excluir</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     <tr>
                                         <td style={{ width: '20%' }}>John</td>
                                         <td style={{ width: '70%' }}>Doe</td>

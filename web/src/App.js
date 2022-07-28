@@ -1,12 +1,9 @@
-/*
- **Author: Santosh Kumar Dash
- **Author URL: http://santoshdash.epizy.com/
- **Github URL: https://github.com/quintuslabs/dashio-admin
- */
 
 import React, { Component } from "react";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Pages from "./views/Pages/Pages";
 import Login from './views/Pages/login';
 import Register from './views/Pages/register';
@@ -25,6 +22,7 @@ class App extends Component {
           basename={process.env.REACT_APP_BASENAME || ""}
           history={browserHistory}
         >
+             <ToastContainer autoClose={4000} style={{zIndex: 9999999}} />
           <Switch>
           <Route exact path="/login"> <Login /> </Route>
           <Route exact path="/register"> <Register /> </Route>
