@@ -25,34 +25,80 @@ class usuarioModel {
             }
         });
         await knex('usuario').insert(dados).returning('id').then((ultimoId) => {
-            knex('receita').insert([
-                { receita: 'Outros', status: 'Ativo', id_usuario: ultimoId[0].id },
-                { receita: 'Beneficios', status: 'Ativo', id_usuario: ultimoId[0].id },
-                { receita: 'Comissão', status: 'Ativo', id_usuario: ultimoId[0].id },
-                { receita: 'Pagamentos', status: 'Ativo', id_usuario: ultimoId[0].id },
-                { receita: 'Rendimentos', status: 'Ativo', id_usuario: ultimoId[0].id },
-                { receita: 'Serviços', status: 'Ativo', id_usuario: ultimoId[0].id },
-                { receita: 'Vendas', status: 'Ativo', id_usuario: ultimoId[0].id },
-            ]).then((receita) => {
-                knex('despesa').insert([
-                    { despesa: 'Alimentação', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Carro', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Educação', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Familia', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Moradia', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Pagamentos', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Saúde', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Serviços', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Transporte', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Vestuario', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Viagens', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Taxas', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Tazer', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    { despesa: 'Assinaturas', status: 'Ativo', id_usuario: ultimoId[0].id },
-                ]).then((despesa) => {
-                    knex('cartao').insert([
-                        { cartao: 'Carteira', tipo: 'Debito', saldo: 898999, conta: '9999', status: 'Ativo', id_usuario: ultimoId[0].id },
-                    ]).then((despesa) => {
+            knex('recebimento').insert([
+                { nome: 'Adiantamento', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Cobrança', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Comissão', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Empréstimo', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Mensalidade', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Rendimentos', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Salário', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Serviços', status: 'Ativo', id_usuario: ultimoId[0].id },
+                { nome: 'Vendas', status: 'Ativo', id_usuario: ultimoId[0].id },
+            ]).then((recebimento) => {
+                knex('despesa_fixa').insert([
+                    { nome: '13º Salário', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Água e esgoto', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Assessorias e Associações', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Assistência odontológica', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Comissão de vendedores', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Contabilidade', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Energia elétrica', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Internet', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Investimentos', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Juros', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Limpeza', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Manutenção de equipamentos', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Publicidade', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Taxas bancárias', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Telefone celular', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Telefone fixo', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Vale Alimentação', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    { nome: 'Vale Transporte', status: 'Ativo', id_usuario: ultimoId[0].id },
+                ]).then((despesa_fixa) => {
+                    knex('conta').insert([
+                        { nome: 'Carteira', tipo: 'Debito', saldo: 0.1, conta: '9999', status: 'Ativo', id_usuario: ultimoId[0].id },
+                    ]).then((conta) => {
+                        knex('despesa_variavel').insert([
+                            { nome: 'Alimentação', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Aquisição de equipamentos', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Cartório', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Combustível', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Horas Extras', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Impressos', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Matéria Prima', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Material de escritório', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Passagem aéreas', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Rescisões trabalhistas', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Treinamentos', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            { nome: 'Viagens', status: 'Ativo', id_usuario: ultimoId[0].id },
+                        ]).then((despesa_variavel) => {
+                            knex('imposto').insert([
+                                { nome: 'Alvará', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'Cofins', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'CSLL', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'FGTS', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'GPS', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'ICMS', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'Imposto de Renda', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'IOF', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'IPI', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'IPTU', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'IPVA', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'IR', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'IRPJ', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'IRRF', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'ISS', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'Juros', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'PIS', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                { nome: 'Simples Nacional', status: 'Ativo', id_usuario: ultimoId[0].id },
+                            ]).then((imposto) => {
+                                knex('transferencia').insert([
+                                    { nome: 'Investimento', status: 'Ativo', id_usuario: ultimoId[0].id },
+                                ]).then((transferencia) => {
+                                });
+                            });
+                        });
                     });
                 });
             });

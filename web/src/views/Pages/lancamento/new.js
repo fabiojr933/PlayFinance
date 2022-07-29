@@ -16,7 +16,7 @@ const LancamentoNew = () => {
 
   const [fluxo, setFluxo] = useState([]);
   const [tipo, setTipo] = useState('');
-  const [cartao, setCartao] = useState([]);
+  const [conta, setConta] = useState([]);
   const [cartaoSelecionado, setCartaoSelecionado] = useState('');
   const [despesa, setDespesa] = useState('');
   const [receita, setReceita] = useState('');
@@ -62,7 +62,7 @@ const LancamentoNew = () => {
       setUsuario(JSON.parse(usuario).token);
       var config = {
         method: 'GET',
-        url: api.url_api + '/cartao',
+        url: api.url_api + '/conta',
         headers: {
           Authorization: "Bearer " + JSON.parse(usuario).token
         }
@@ -70,7 +70,7 @@ const LancamentoNew = () => {
       try {
         const resposta = await axios(config);
         if (resposta.status == 200) {
-          setCartao(resposta.data);
+          setConta(resposta.data);
         }
       } catch (error) {
         toast.error(error.response.data.error);
@@ -78,14 +78,19 @@ const LancamentoNew = () => {
     }
     load();
   }, []);
+
+  async function carregarPagamento(e){
+    
+  }
+
   async function carregarTipo(e) {
     e.preventDefault();
     const tipo = e.target.value
     setTipo(tipo);
-    if (tipo == 'Entrada') {
+    if (tipo == 'Despesa Fixa') {
       var config = {
         method: 'GET',
-        url: api.url_api + '/receita',
+        url: api.url_api + '/despesaFixa',
         headers: {
           Authorization: "Bearer " + usuario
         }
@@ -99,10 +104,61 @@ const LancamentoNew = () => {
         toast.error(error.response.data.error);
       }
     }
-    if (tipo == 'Saida') {
+    if (tipo == 'Despesa Variavel') {
       var config = {
         method: 'GET',
-        url: api.url_api + '/despesa',
+        url: api.url_api + '/despesaVariavel',
+        headers: {
+          Authorization: "Bearer " + usuario
+        }
+      }
+      try {
+        const resposta = await axios(config);
+        if (resposta.status == 200) {
+          setFluxo(resposta.data);
+        }
+      } catch (error) {
+        toast.error(error.response.data.error);
+      }
+    }
+    if (tipo == 'Imposto') {
+      var config = {
+        method: 'GET',
+        url: api.url_api + '/imposto',
+        headers: {
+          Authorization: "Bearer " + usuario
+        }
+      }
+      try {
+        const resposta = await axios(config);
+        if (resposta.status == 200) {
+          setFluxo(resposta.data);
+        }
+      } catch (error) {
+        toast.error(error.response.data.error);
+      }
+    }
+    if (tipo == 'Transferencia') {
+      var config = {
+        method: 'GET',
+        url: api.url_api + '/transferencia',
+        headers: {
+          Authorization: "Bearer " + usuario
+        }
+      }
+      try {
+        const resposta = await axios(config);
+        if (resposta.status == 200) {
+          setFluxo(resposta.data);
+        }
+      } catch (error) {
+        toast.error(error.response.data.error);
+      }
+    }
+    if (tipo == 'Recebimento') {
+      var config = {
+        method: 'GET',
+        url: api.url_api + '/recebimento',
         headers: {
           Authorization: "Bearer " + usuario
         }
@@ -149,8 +205,11 @@ const LancamentoNew = () => {
                     <div class="form-group">
                       <select class="form-control pesquisa__select col-12 selectCustom" onClick={carregarTipo}>
                         <option no-onSelect>Selecione</option>
-                        <option value="Entrada">Entrada</option>
-                        <option value="Saida" >Saida</option>
+                        <option value="Despesa Fixa">Despesa Fixa</option>
+                        <option value="Despesa Variavel" >Despesa Variavel</option>
+                        <option value="Imposto" >Imposto</option>
+                        <option value="Recebimento" >Recebimento</option>
+                        <option value="Transferencia" >Transferencia</option>
                       </select>
                     </div>
                   </Col>
@@ -162,18 +221,34 @@ const LancamentoNew = () => {
                       <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { tipo == 'Entrada' ? setReceita(e.target.value) || setDespesa(null) : setDespesa(e.target.value) || setReceita(null) }} >
                         <option no-onSelect>Selecione</option>
                         {fluxo.map((v) => (
-                          <option value={tipo == 'Entrada' ? v.id : v.id} > {tipo == 'Entrada' ? v.receita : v.despesa}</option>
+                          <option value={v.id} > {v.nome}</option>
                         ))}
                       </select>
                     </div>
                   </Col>
                   <Col>
+                    <Form.Label style={{ float: 'left' }}>Método de Pagamento</Form.Label>
+                    <div class="form-group">
+                      <select class="form-control pesquisa__select col-12 selectCustom" onClick={carregarPagamento} >
+                        <option no-onSelect>Selecione</option>                     
+                          <option value='Dinheiro' >Dinheiro</option>
+                          <option value='Transferencia' >Transferencia</option>
+                          <option value='Deposito' >Deposito</option>
+                          <option value='Pix' >Pix</option>
+                          <option value='Cartao Debito' >Cartão Debito</option>
+                          <option value='Cartao Credito' >Cartão Credito</option>
+                      </select>
+                    </div>
+                  </Col>
+                </Row>
+                <Row>                  
+                  <Col>
                     <Form.Label style={{ float: 'left' }}>Tipo da conta</Form.Label>
                     <div class="form-group">
                       <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setCartaoSelecionado(e.target.value) }} >
                         <option no-onSelect>Selecione</option>
-                        {cartao.map((v) => (
-                          <option value={v.id} >{v.cartao}</option>
+                        {conta.map((v) => (
+                          <option value={v.id} >{v.nome}</option>
                         ))}
                       </select>
                     </div>

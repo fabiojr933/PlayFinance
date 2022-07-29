@@ -3,7 +3,7 @@ exports.up = async (knex) => {
         t.increments('id').primary();
         t.decimal('valor').notNull();
         t.integer('id_usuario').references('id').inTable('usuario').notNull();
-        t.integer('id_cartao').references('id').inTable('cartao');
+        t.integer('id_conta').references('id').inTable('conta');
         t.integer('id_lancamento').references('id').inTable('lancamento');
         t.date('data').notNull();        
         t.string('status').notNull();

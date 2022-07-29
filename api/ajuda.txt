@@ -1,3 +1,5 @@
 knex migrate:make create_usuario --env dev
 knex migrate:latest --env test
 knex migrate:rollback --env test
+
+.\node_modules\.bin\knex migrate:latest --env dev

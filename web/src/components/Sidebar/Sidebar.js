@@ -7,6 +7,7 @@ function Sidebar(props) {
   const [active, setActive] = useState("");
   const [dropdownToggle, setDropDownToggle] = useState(false);
   const [dropdownToggle2, setDropDownToggle2] = useState(false);
+  const [dropdownToggle3, setDropDownToggle3] = useState(false);
 
   useEffect(() => {
     setActive(props.location.pathname);
@@ -52,62 +53,146 @@ function Sidebar(props) {
                   ? "sub-menu children dropdown-menu show"
                   : "sub-menu children dropdown-menu"
               }
-            >
-              <li
-                className={
-                  active === "/dashboard/receita"
-                    ? "active"
-                    : null
-                }
-              >
-                <Link to="/dashboard/receita">
-                  <div className="menu-icon">
-                    <i className="fa fa-puzzle-piece"></i>
-                  </div>
-                  <span className="menu-title">Cadastro de receita</span>
-                </Link>
-              </li>
+            >             
                 
               <li
                 className={
-                  active === "/dashboard/despesa"
+                  active === "/dashboard/despesa-fixa"
                     ? "active"
                     : null
                 }
               >
-                <Link to="/dashboard/despesa">
+                <Link to="/dashboard/despesa-fixa">
                   <div className="menu-icon">
                     <i className="fa fa-puzzle-piece"></i>
                   </div>
-                  <span className="menu-title">Cadastro de despesa</span>
+                  <span className="menu-title">Despesa Fixa</span>
                 </Link>
               </li>
+
+              <li
+                className={
+                  active === "/dashboard/despesa-variavel"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/despesa-variavel">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Despesa Variavel</span>
+                </Link>
+              </li>
+
+              <li
+                className={
+                  active === "/dashboard/recebimento"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/recebimento">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Recebimento</span>
+                </Link>
+              </li>
+
+              <li
+                className={
+                  active === "/dashboard/transferencia"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/transferencia">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Transferencia</span>
+                </Link>
+              </li>
+
+              <li
+                className={
+                  active === "/dashboard/imposto"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/imposto">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Imposto</span>
+                </Link>
+              </li>
+             
              
                   
               <li
                 className={
-                  active === "/dashboard/cartao"
+                  active === "/dashboard/conta"
                     ? "active"
                     : null
                 }
               >
-                <Link to="/dashboard/cartao">
+                <Link to="/dashboard/conta">
                   <div className="menu-icon">
                     <i className="fa fa-puzzle-piece"></i>
                   </div>
-                  <span className="menu-title">Cadastro conta bancaria</span>
+                  <span className="menu-title">Conta bancaria</span>
                 </Link>
               </li>
 
               
             </ul>
+          </li>             
+           
+
+
+          <li
+            className="menu-item-has-children dropdown"
+            onClick={() => setDropDownToggle3(!dropdownToggle3)}
+          >
+            <a
+              href="#"
+              className="dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i className="fa fa-check-square-o nav_icon"></i>Financeiro
+            </a>
+            <ul
+              className={
+                dropdownToggle3
+                  ? "sub-menu children dropdown-menu show"
+                  : "sub-menu children dropdown-menu"
+              }
+            >             
+                
+              <li
+                className={
+                  active === "/dashboard/financeiro/lancamento"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/lancamento">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Lançamento</span>
+                </Link>
+              </li>            
+            
+
+              
+            </ul>
           </li>
-
-
-
-
-
-
 
 
 
@@ -219,24 +304,13 @@ function Sidebar(props) {
 
 
 
-          <li
-            className={active === "/dashboard/lancamento" ? "active" : null}
-          >
-            <Link to="/dashboard/lancamento">
-              <div className="menu-icon">
-                <i className="fa fa-book nav_icon" aria-hidden="true"></i>
-              </div>
-              <span className="menu-title">Lançamento</span>
-            </Link>
-          </li>
-
           {/* <li className={active === "/widgets" ? "active" : null}>
             <a href="/widgets">
               <div className="menu-icon">
                 <i className="fa fa-th-large nav_icon" aria-hidden="true"></i>
               </div>
               <span className="menu-title">Widgets</span>
-            </a>
+            </a>   fa fa-book nav_icon
           </li> */}
 
           <li className={active === "/dashboard/lancamento" ? "active" : null}>

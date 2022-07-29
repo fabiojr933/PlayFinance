@@ -2,38 +2,62 @@ const express = require('express');
 const route = express.Router();
 const middlewares = require('./middlewares/autenticacao');
 const usuarioController = require('./controller/usuarioController');
-const despesaController = require('./controller/despesaController');
-const receitaController = require('./controller/receitaController');
-const cartaoController = require('./controller/cartaoController');
+const despesaFixaController = require('./controller/despesaFixaController');
+const despesaVariavelController = require('./controller/despesaVariavelController');
+const rebimentoController = require('./controller/recebimentosController');
+const impostoController = require('./controller/impostoController');
+const contaController = require('./controller/contaController');
 const lancamentoController = require('./controller/lacamentoController');
+const transferenciaController = require('./controller/transferenciaController');
 
 const usuario = new usuarioController();
-const despesa = new despesaController();
-const receita = new receitaController();
-const cartao = new cartaoController();
+const despesaFixa = new despesaFixaController();
+const despesaVariavel = new despesaVariavelController();
+const recebimento = new rebimentoController();
+const imposto = new impostoController();
+const conta = new contaController();
+const transferencia = new transferenciaController();
 const lancamento = new lancamentoController();
 
 route.post('/usuario', usuario.salvar);
 route.put('/usuario/:id', usuario.alterar);
 route.post('/login', usuario.login);
 
-route.post('/despesa', middlewares.Autorizacao, despesa.salvar);
-route.get('/despesa', middlewares.Autorizacao, despesa.listaAll);
-route.get('/despesa/:id', middlewares.Autorizacao, despesa.listaId);
-route.delete('/despesa/:id', middlewares.Autorizacao, despesa.excluir);
-route.put('/despesa/:id', middlewares.Autorizacao, despesa.atualizar);
+route.post('/despesaFixa', middlewares.Autorizacao, despesaFixa.salvar);
+route.get('/despesaFixa', middlewares.Autorizacao, despesaFixa.listaAll);
+route.get('/despesaFixa/:id', middlewares.Autorizacao, despesaFixa.listaId);
+route.delete('/despesaFixa/:id', middlewares.Autorizacao, despesaFixa.excluir);
+route.put('/despesaFixa/:id', middlewares.Autorizacao, despesaFixa.atualizar);
 
-route.post('/receita', middlewares.Autorizacao, receita.salvar);
-route.get('/receita', middlewares.Autorizacao, receita.listaAll);
-route.get('/receita/:id', middlewares.Autorizacao, receita.listaId);
-route.delete('/receita/:id', middlewares.Autorizacao, receita.excluir);
-route.put('/receita/:id', middlewares.Autorizacao, receita.atualizar);
+route.post('/despesaVariavel', middlewares.Autorizacao, despesaVariavel.salvar);
+route.get('/despesaVariavel', middlewares.Autorizacao, despesaVariavel.listaAll);
+route.get('/despesaVariavel/:id', middlewares.Autorizacao, despesaVariavel.listaId);
+route.delete('/despesaVariavel/:id', middlewares.Autorizacao, despesaVariavel.excluir);
+route.put('/despesaVariavel/:id', middlewares.Autorizacao, despesaVariavel.atualizar);
 
-route.post('/cartao', middlewares.Autorizacao, cartao.salvar);
-route.get('/cartao', middlewares.Autorizacao, cartao.listaAll);
-route.get('/cartao/:id', middlewares.Autorizacao, cartao.listaId);
-route.delete('/cartao/:id', middlewares.Autorizacao, cartao.excluir);
-route.put('/cartao/:id', middlewares.Autorizacao, cartao.atualizar);
+route.post('/imposto', middlewares.Autorizacao, imposto.salvar);
+route.get('/imposto', middlewares.Autorizacao, imposto.listaAll);
+route.get('/imposto/:id', middlewares.Autorizacao, imposto.listaId);
+route.delete('/imposto/:id', middlewares.Autorizacao, imposto.excluir);
+route.put('/imposto/:id', middlewares.Autorizacao, imposto.atualizar);
+
+route.post('/recebimento', middlewares.Autorizacao, recebimento.salvar);
+route.get('/recebimento', middlewares.Autorizacao, recebimento.listaAll);
+route.get('/recebimento/:id', middlewares.Autorizacao, recebimento.listaId);
+route.delete('/recebimento/:id', middlewares.Autorizacao, recebimento.excluir);
+route.put('/recebimento/:id', middlewares.Autorizacao, recebimento.atualizar);
+
+route.post('/conta', middlewares.Autorizacao, conta.salvar);
+route.get('/conta', middlewares.Autorizacao, conta.listaAll);
+route.get('/conta/:id', middlewares.Autorizacao, conta.listaId);
+route.delete('/conta/:id', middlewares.Autorizacao, conta.excluir);
+route.put('/conta/:id', middlewares.Autorizacao, conta.atualizar);
+
+route.post('/transferencia', middlewares.Autorizacao, transferencia.salvar);
+route.get('/transferencia', middlewares.Autorizacao, transferencia.listaAll);
+route.get('/transferencia/:id', middlewares.Autorizacao, transferencia.listaId);
+route.delete('/transferencia/:id', middlewares.Autorizacao, transferencia.excluir);
+route.put('/transferencia/:id', middlewares.Autorizacao, transferencia.atualizar);
 
 route.post('/lancamento', middlewares.Autorizacao, lancamento.salvar);
 route.get('/lancamento/:id', middlewares.Autorizacao, lancamento.listaId);

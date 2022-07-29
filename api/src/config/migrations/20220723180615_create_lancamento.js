@@ -4,10 +4,12 @@ exports.up = async (knex) => {
         t.string('observacao');
         t.decimal('valor').notNull();
         t.integer('id_usuario').references('id').inTable('usuario').notNull();
-        t.integer('id_receita').references('id').inTable('receita');
-        t.integer('id_despesa').references('id').inTable('despesa');
-        t.integer('id_cartao').references('id').inTable('cartao');
-        t.string('tipo').notNull();
+        t.integer('id_recebimento').references('id').inTable('recebimento');
+        t.integer('id_despesa_fixa').references('id').inTable('despesa_fixa');
+        t.integer('id_despesa_variavel').references('id').inTable('despesa_variavel');
+        t.integer('id_conta').references('id').inTable('conta');
+        t.integer('id_imposto').references('id').inTable('imposto');
+        t.integer('id_transferencia').references('id').inTable('transferencia');      
         t.date('data').notNull();
     });
 };

@@ -20,17 +20,30 @@ import Charts from "./views/Charts/Charts";
 
 
 //Meus
-import ReceitaIndex from './views/Pages/receita';
-import ReceitaEdit from './views/Pages/receita/edit';
-import ReceitaNew from './views/Pages/receita/new';
+import DespesaFixaIndex from './views/Pages/despesaFixa';
+import DespesaFixaEdit from './views/Pages/despesaFixa/edit';
+import DespesaFixaNew from './views/Pages/despesaFixa/new';
 
-import DespesaIndex from './views/Pages/despesa';
-import DespesaEdit from './views/Pages/despesa/edit';
-import DespesaNew from './views/Pages/despesa/new';
+import DespesaVariavelIndex from './views/Pages/despesaVariavel';
+import DespesaVariavelEdit from './views/Pages/despesaVariavel/edit';
+import DespesaVariavelNew from './views/Pages/despesaVariavel/new';
 
-import CartaoIndex from './views/Pages/cartao';
-import CartaoEdit from './views/Pages/cartao/edit';
-import CartaoNew from './views/Pages/cartao/new';
+import recebimentoIndex from './views/Pages/recebimento';
+import recebimentoEdit from './views/Pages/recebimento/edit';
+import recebimentoNew from './views/Pages/recebimento/new';
+
+
+import transferenciaIndex from './views/Pages/imposto';
+import transferenciaEdit from './views/Pages/imposto/edit';
+import transferenciaNew from './views/Pages/imposto/new';
+
+import impostoIndex from './views/Pages/imposto';
+import impostoEdit from './views/Pages/imposto/edit';
+import impostoNew from './views/Pages/imposto/new';
+
+import contaIndex from './views/Pages/conta';
+import contaEdit from './views/Pages/conta/edit';
+import contaNew from './views/Pages/conta/new';
 
 import LancamentoIndex from './views/Pages/lancamento';
 import LancamentoNovo from './views/Pages/lancamento/new';
@@ -114,63 +127,114 @@ var routes = [
   },
 
   //Meus
+  
   {
-    path: "/dashboard/receita/novo",
+    path: "/dashboard/despesa-fixa/novo",
     layout: BaseLayout,
-    component: ReceitaNew,
+    component: DespesaFixaNew,
   },
   {
-    path: "/dashboard/receita/editar/:id",
+    path: "/dashboard/despesa-fixa/editar/:id",
     layout: BaseLayout,
-    component: ReceitaEdit,
+    component: DespesaFixaEdit,
   },
   {
-    path: "/dashboard/receita",
+    path: "/dashboard/despesa-fixa",
     layout: BaseLayout,
-    component: ReceitaIndex,
-  },
-
-  {
-    path: "/dashboard/despesa/novo",
-    layout: BaseLayout,
-    component: DespesaNew,
-  },
-  {
-    path: "/dashboard/despesa/editar/:id",
-    layout: BaseLayout,
-    component: DespesaEdit,
-  },
-  {
-    path: "/dashboard/despesa",
-    layout: BaseLayout,
-    component: DespesaIndex,
+    component: DespesaFixaIndex,
   },
 
   {
-    path: "/dashboard/cartao/novo",
+    path: "/dashboard/despesa-variavel/novo",
     layout: BaseLayout,
-    component: CartaoNew,
+    component: DespesaVariavelNew,
   },
   {
-    path: "/dashboard/cartao/editar/:id",
+    path: "/dashboard/despesa-variavel/editar/:id",
     layout: BaseLayout,
-    component: CartaoEdit,
+    component: DespesaVariavelEdit,
   },
   {
-    path: "/dashboard/cartao",
+    path: "/dashboard/despesa-variavel",
     layout: BaseLayout,
-    component: CartaoIndex,
+    component: DespesaVariavelIndex,
+  },
+
+  {
+    path: "/dashboard/recebimento/novo",
+    layout: BaseLayout,
+    component: recebimentoNew,
   },
   {
-    path: "/dashboard/lancamento/novo",
+    path: "/dashboard/recebimento/editar/:id",
+    layout: BaseLayout,
+    component: recebimentoEdit,
+  },
+  {
+    path: "/dashboard/recebimento",
+    layout: BaseLayout,
+    component: recebimentoIndex,
+  },
+  {
+    path: "/dashboard/conta/novo",
+    layout: BaseLayout,
+    component: contaNew,
+  },
+  {
+    path: "/dashboard/conta/editar/:id",
+    layout: BaseLayout,
+    component: contaEdit,
+  },
+  {
+    path: "/dashboard/conta",
+    layout: BaseLayout,
+    component: contaIndex,
+  },
+  {
+    path: "/dashboard/financeiro/lancamento/novo",
     layout: BaseLayout,
     component: LancamentoNovo,
   },
   {
-    path: "/dashboard/lancamento",
+    path: "/dashboard/financeiro/lancamento",
     layout: BaseLayout,
     component: LancamentoIndex,
   },
+  ,
+  {
+    path: "/dashboard/transferencia/novo",
+    layout: BaseLayout,
+    component: transferenciaNew,
+  },
+  {
+    path: "/dashboard/transferencia/editar/:id",
+    layout: BaseLayout,
+    component: transferenciaEdit,
+  },
+
+  {
+    path: "/dashboard/transferencia",
+    layout: BaseLayout,
+    component: transferenciaIndex,
+  }
+
+  ,
+  {
+    path: "/dashboard/imposto/novo",
+    layout: BaseLayout,
+    component: impostoNew,
+  },
+  {
+    path: "/dashboard/imposto/editar/:id",
+    layout: BaseLayout,
+    component: impostoEdit,
+  },
+
+  {
+    path: "/dashboard/imposto",
+    layout: BaseLayout,
+    component: impostoIndex,
+  }
 
 
 
