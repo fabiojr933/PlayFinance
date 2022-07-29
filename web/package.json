@@ -29,6 +29,7 @@
     "bootstrap": "^4.6.2",
     "chart.js": "^2.9.3",
     "classnames": "^2.2.6",
+    "moment": "^2.29.4",
     "node-sass": "^6.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

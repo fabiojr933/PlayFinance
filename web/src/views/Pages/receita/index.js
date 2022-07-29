@@ -1,15 +1,71 @@
 
-import React, { Component } from "react";
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useHistory, Link } from 'react-router-dom';
 import { Button } from "../../../components/Button";
 import { Card } from "../../../components/Card";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
+import api from '../../../services/api';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Receita = () => {
 
     const history = useHistory();
+    const [receita, setReceita] = useState([]);
+    const [usuario, setUsuario] = useState('');
+
+    const handleDel = async (id) => {
+        if (!id) {
+            return toast.error('Selecione uma receita para deletar');
+        }      
+        const config = {
+            method: 'DELETE',
+            url: api.url_api + `/receita/${id}`,
+            headers: {
+                Authorization: "Bearer " + usuario
+            },
+        }
+        try {
+            const resposta = await axios(config);
+            if (resposta.status == 200) {
+                history.push('/dashboard/receita');
+                Carregamento();
+                toast.info('Receita deletado com sucesso');
+            }
+        } catch (error) {
+            toast.error(error.response.data.error);
+        }
+    };
+
+    async function handlEditar(id){
+        history.push(`/dashboard/receita/editar/${id}`);
+    }
+
+    const Carregamento = async () => {
+        const usuario = localStorage.getItem('@usuario');
+        setUsuario(JSON.parse(usuario).token);
+        var config = {
+            method: 'GET',
+            url: api.url_api + '/receita',
+            headers: {
+                Authorization: "Bearer " + JSON.parse(usuario).token
+            }
+        }
+        try {
+            const resposta = await axios(config);
+            if (resposta.status == 200) {
+                setReceita(resposta.data);
+            }
+        } catch (error) {
+            toast.error(error.response.data.errror);
+        }
+    }
+
+    useEffect(() => {
+        Carregamento();
+    }, [])
 
     return (
         <div className="main-content-container p-4 container-fluid">
@@ -34,24 +90,14 @@ const Receita = () => {
                                     </tr>
                                 </thead>
                                 <tbody >
+                                    {receita.map((v, i) => (                                    
                                     <tr>
-                                        <td style={{ width: '20%' }}>John</td>
-                                        <td style={{ width: '70%' }}>Doe</td>
-                                        <td > <a href=""><AiFillEdit /></a> </td>
-                                        <td > <a href=""><AiFillDelete /></a> </td>
+                                        <td style={{ width: '20%' }}>{v.id}</td>
+                                        <td style={{ width: '70%' }}>{v.receita}</td>
+                                        <td > <Link onClick={() => {handlEditar(v.id)}} ><AiFillEdit /></Link> </td>
+                                        <td > <Link onClick={() => {handleDel(v.id)}} ><AiFillDelete /></Link> </td>
                                     </tr>
-                                    <tr>
-                                        <td>Mary</td>
-                                        <td>Moe</td>
-                                        <td > <a href=""><AiFillEdit /></a> </td>
-                                        <td > <a href=""><AiFillDelete /></a> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>July</td>
-                                        <td>Dooley</td>
-                                        <td > <a href=""><AiFillEdit /></a> </td>
-                                        <td > <a href=""><AiFillDelete /></a> </td>
-                                    </tr>
+                                   ))}
                                 </tbody>
                             </Table>
                         </Card>

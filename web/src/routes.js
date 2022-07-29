@@ -32,7 +32,8 @@ import CartaoIndex from './views/Pages/cartao';
 import CartaoEdit from './views/Pages/cartao/edit';
 import CartaoNew from './views/Pages/cartao/new';
 
-
+import LancamentoIndex from './views/Pages/lancamento';
+import LancamentoNovo from './views/Pages/lancamento/new';
 
 var routes = [
   {
@@ -159,6 +160,16 @@ var routes = [
     path: "/dashboard/cartao",
     layout: BaseLayout,
     component: CartaoIndex,
+  },
+  {
+    path: "/dashboard/lancamento/novo",
+    layout: BaseLayout,
+    component: LancamentoNovo,
+  },
+  {
+    path: "/dashboard/lancamento",
+    layout: BaseLayout,
+    component: LancamentoIndex,
   },
 
 

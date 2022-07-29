@@ -66,7 +66,7 @@ const DespesaEdit = () => {
   return (
     <div className="main-content-container p-4 container-fluid">
       <div >
-        <Button onClick={() => { history.goBack() }} type="button" className="button button-primary">
+        <Button onClick={() => { history.push('/dashboard/despesa') }} type="button" className="button button-primary">
           Voltar
         </Button>
       </div><br />

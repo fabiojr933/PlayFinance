@@ -220,14 +220,14 @@ function Sidebar(props) {
 
 
           <li
-            className={active === "/dashio-admin/ui-elements" ? "active" : null}
+            className={active === "/dashboard/lancamento" ? "active" : null}
           >
-            <a href="/dashio-admin/ui-elements">
+            <Link to="/dashboard/lancamento">
               <div className="menu-icon">
                 <i className="fa fa-book nav_icon" aria-hidden="true"></i>
               </div>
-              <span className="menu-title">UI Elements </span>
-            </a>
+              <span className="menu-title">Lançamento</span>
+            </Link>
           </li>
 
           {/* <li className={active === "/widgets" ? "active" : null}>
@@ -239,8 +239,8 @@ function Sidebar(props) {
             </a>
           </li> */}
 
-          <li className={active === "/dashio-admin/forms" ? "active" : null}>
-            <a href="/dashio-admin/forms">
+          <li className={active === "/dashboard/lancamento" ? "active" : null}>
+            <a href="/dashboard/lancamento">
               <div className="menu-icon">
                 <i
                   className="fa fa-check-square-o nav_icon"
