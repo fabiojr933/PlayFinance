@@ -28,8 +28,7 @@ class ContaController {
         try {
             const id_usuario = req.id_usuario;
             const data = {
-                'nome': req.body.nome.trim(),
-                'tipo': req.body.tipo.trim(),
+                'nome': req.body.nome.trim(),              
                 'saldo': req.body.saldo,
                 'conta': req.body.conta,
                 'status': 'Ativo',

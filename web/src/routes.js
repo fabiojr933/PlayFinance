@@ -33,9 +33,9 @@ import recebimentoEdit from './views/Pages/recebimento/edit';
 import recebimentoNew from './views/Pages/recebimento/new';
 
 
-import transferenciaIndex from './views/Pages/imposto';
-import transferenciaEdit from './views/Pages/imposto/edit';
-import transferenciaNew from './views/Pages/imposto/new';
+import transferenciaIndex from './views/Pages/transferencia';
+import transferenciaEdit from './views/Pages/transferencia/edit';
+import transferenciaNew from './views/Pages/transferencia/new';
 
 import impostoIndex from './views/Pages/imposto';
 import impostoEdit from './views/Pages/imposto/edit';
@@ -47,6 +47,8 @@ import contaNew from './views/Pages/conta/new';
 
 import LancamentoIndex from './views/Pages/lancamento';
 import LancamentoNovo from './views/Pages/lancamento/new';
+
+import Relatorio from './views/Pages/relatorio';
 
 var routes = [
   {
@@ -127,7 +129,7 @@ var routes = [
   },
 
   //Meus
-  
+
   {
     path: "/dashboard/despesa-fixa/novo",
     layout: BaseLayout,
@@ -234,7 +236,14 @@ var routes = [
     path: "/dashboard/imposto",
     layout: BaseLayout,
     component: impostoIndex,
+  },
+
+  {
+    path: "/dashboard/financeiro/relatorio",
+    layout: BaseLayout,
+    component: Relatorio,
   }
+
 
 
 

@@ -9,6 +9,8 @@ const impostoController = require('./controller/impostoController');
 const contaController = require('./controller/contaController');
 const lancamentoController = require('./controller/lacamentoController');
 const transferenciaController = require('./controller/transferenciaController');
+const pagarController = require('./controller/pagarController');
+const receberController = require('./controller/receberController');
 
 const usuario = new usuarioController();
 const despesaFixa = new despesaFixaController();
@@ -18,6 +20,8 @@ const imposto = new impostoController();
 const conta = new contaController();
 const transferencia = new transferenciaController();
 const lancamento = new lancamentoController();
+const contaPagar = new pagarController();
+const contaReceber = new receberController();
 
 route.post('/usuario', usuario.salvar);
 route.put('/usuario/:id', usuario.alterar);
@@ -63,5 +67,17 @@ route.post('/lancamento', middlewares.Autorizacao, lancamento.salvar);
 route.get('/lancamento/:id', middlewares.Autorizacao, lancamento.listaId);
 route.get('/lancamento/:ano/:mes', middlewares.Autorizacao, lancamento.listaRaw);
 route.delete('/lancamento/:id', middlewares.Autorizacao, lancamento.excluir);
+
+route.post('/contasPagar', middlewares.Autorizacao, contaPagar.salvar);
+route.get('/contasPagar', middlewares.Autorizacao, contaPagar.listaAll);
+route.get('/contasPagar/pendente', middlewares.Autorizacao, contaPagar.listaAllPendente);
+route.put('/contasPagar/baixa/:id', middlewares.Autorizacao, contaPagar.baixa);
+route.delete('/contasPagar/:id', middlewares.Autorizacao, contaPagar.excluir);
+
+route.post('/contasReceber', middlewares.Autorizacao, contaReceber.salvar);
+route.get('/contasReceber', middlewares.Autorizacao, contaReceber.listaAll);
+route.get('/contasReceber/pendente', middlewares.Autorizacao, contaReceber.listaAllPendente);
+route.put('/contasReceber/baixa/:id', middlewares.Autorizacao, contaReceber.baixa);
+route.delete('/contasReceber/:id', middlewares.Autorizacao, contaReceber.excluir);
 
 module.exports = route;

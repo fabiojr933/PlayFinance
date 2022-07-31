@@ -13,13 +13,13 @@ import { toast } from 'react-toastify';
 const ContaNew = () => {
   const history = useHistory();
   const [nome, setNome] = useState('');
-  const [tipo, setTipo] = useState('');
+  
   const [saldo, setSaldo] = useState('');
   const [conta, setConta] = useState('');
 
   async function heandleSalvar(e) {
     e.preventDefault();
-    const data = { 'nome': nome, 'tipo': tipo, 'saldo': saldo, 'conta': conta };
+    const data = { 'nome': nome, 'saldo': saldo, 'conta': conta };
     const usuario = localStorage.getItem('@usuario');
     var config = {
       method: 'POST',
@@ -66,23 +66,11 @@ const ContaNew = () => {
                       <Form.Label style={{ float: 'left' }}>Numero conta</Form.Label>
                       <Form.Control placeholder="Numero conta" onChange={(e) => { setConta(e.target.value) }} />
                     </Col>
-                  </Row><br />
-                  <Row>
-                    <Col>
-                      <Form.Label style={{ float: 'left' }}>Tipo da conta</Form.Label>
-                      <div class="form-group">
-                        <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setTipo(e.target.value) }}>
-                        <option no-onSelect>Selecione</option>
-                          <option value="Debito">Debito</option>
-                          <option value="Credito" >Credito</option>
-                        </select>
-                      </div>
-                    </Col>
                     <Col>
                       <Form.Label style={{ float: 'left' }}>Saldo</Form.Label>
                       <Form.Control placeholder="Digite o saldo da conta" onChange={(e) => { setSaldo(e.target.value) }} />
                     </Col>
-                  </Row>
+                  </Row><br />                
                   <Button style={{ float: 'left' }} variant="primary" type="submit">
                     Cadastrar
                   </Button>

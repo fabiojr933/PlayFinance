@@ -13,8 +13,7 @@ import { toast } from 'react-toastify';
 const ContaEdit = () => {
   const history = useHistory();
   const { id } = useParams();
-  const [nome, setNome] = useState('');
-  const [tipo, setTipo] = useState('');
+  const [nome, setNome] = useState('');  
   const [saldo, setSaldo] = useState('');
   const [conta, setConta] = useState('');
   const [usuario, setUsuario] = useState('');
@@ -36,8 +35,7 @@ const ContaEdit = () => {
           console.log(resposta.data)
           setNome(resposta.data[0].nome);
           setConta(resposta.data[0].conta);
-          setSaldo(resposta.data[0].saldo);
-          setTipo(resposta.data[0].tipo);
+          setSaldo(resposta.data[0].saldo);         
         }
       } catch (error) {
         toast.error(error.response.data.error);
@@ -50,7 +48,7 @@ const ContaEdit = () => {
   async function handleSalvar(e) {
     e.preventDefault();
     console.log(e)
-    const data = { 'nome': nome, 'tipo': tipo, 'saldo': saldo, 'conta': conta };
+    const data = { 'nome': nome, 'saldo': saldo, 'conta': conta };
     var config = {
       method: 'PUT',
       url: api.url_api + `/conta/${id}`,
@@ -95,22 +93,11 @@ const ContaEdit = () => {
                   <Form.Label style={{ float: 'left' }}>Numero conta</Form.Label>
                   <Form.Control placeholder="Numero conta" value={conta} onChange={(e) => { setConta(e.target.value) }} />
                 </Col>
-              </Row><br />
-              <Row>
-                <Col>
-                  <Form.Label style={{ float: 'left' }}>Tipo da conta</Form.Label>
-                  <div class="form-group">
-                    <select class="form-control pesquisa__select col-12 selectCustom" value={tipo} onChange={(e) => { setTipo(e.target.value) }}>
-                      <option>Debito</option>
-                      <option>Credito</option>
-                    </select>
-                  </div>
-                </Col>
                 <Col>
                   <Form.Label style={{ float: 'left' }}>Saldo</Form.Label>
                   <Form.Control placeholder="Digite o saldo da conta" value={saldo} onChange={(e) => { setSaldo(e.target.value) }} />
                 </Col>
-              </Row>
+              </Row><br />             
               <Button style={{ float: 'left' }} variant="primary" type="submit">
                 Cadastrar
               </Button>

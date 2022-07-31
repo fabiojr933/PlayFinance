@@ -21,8 +21,7 @@ class contaModel {
     async salvar(conta) {
         var dados = {};
         var Existeconta = 0;
-        if (!conta.nome) throw new Validacao('O nome do conta é obrigatorio');
-        if (!conta.tipo) throw new Validacao('O tipo do conta é obrigatorio');
+        if (!conta.nome) throw new Validacao('O nome do conta é obrigatorio');       
         if (!conta.saldo) throw new Validacao('O saldo da conta é obrigatorio');
         if (!conta.conta) throw new Validacao('O numero da conta é obrigatorio');
         if (!conta.id_usuario) throw new Validacao('Usuario não Autorizado');

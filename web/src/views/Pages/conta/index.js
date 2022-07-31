@@ -84,10 +84,9 @@ const Conta = () => {
                                 <thead>
                                     <tr>
                                         <th style={{ width: '10%' }} >id</th>
-                                        <th style={{ width: '30%' }}>Nome</th>
+                                        <th style={{ width: '50%' }}>Nome</th>
                                         <th style={{ width: '20%' }}>Conta</th>
                                         <th style={{ width: '20%' }}>Saldo</th>
-                                        <th style={{ width: '20%' }}>Tipo</th>
                                         <th >Editar</th>
                                         <th >Excluir</th>
                                     </tr>
@@ -96,10 +95,9 @@ const Conta = () => {
                                     {conta.map((v) => (
                                         <tr>
                                             <td style={{ width: '10%' }}>{v.id}</td>
-                                            <td style={{ width: '30%' }}>{v.nome}</td>
+                                            <td style={{ width: '50%' }}>{v.nome}</td>
                                             <td style={{ width: '20%' }}>{v.conta}</td>
                                             <td style={{ width: '20%' }}>{v.saldo}</td>
-                                            <td style={{ width: '20%' }}>{v.tipo}</td>
                                             <td > <Link onClick={() => { handleEditar(v.id) }} ><AiFillEdit /></Link> </td>
                                             <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
                                         </tr>

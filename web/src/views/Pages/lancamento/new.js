@@ -18,24 +18,66 @@ const LancamentoNew = () => {
   const [tipo, setTipo] = useState('');
   const [conta, setConta] = useState([]);
   const [cartaoSelecionado, setCartaoSelecionado] = useState('');
-  const [despesa, setDespesa] = useState('');
-  const [receita, setReceita] = useState('');
+  const [lanc, setLanc] = useState('');
   const [observacao, setObservacao] = useState('');
   const [valor, setValor] = useState('');
   const [usuario, setUsuario] = useState('');
 
-
   async function handleSalvar(e) {
     e.preventDefault();
-    const data = {
-      'observacao': observacao,
-      'valor': valor,
-      'id_receita': receita,
-      'id_despesa': despesa,
-      'id_cartao': cartaoSelecionado,
-      'tipo': tipo,
-      'data': moment().format('YYYY-MM-DD')
+    var data = {};
+    if (tipo == 'Despesa Fixa') {
+      data = {
+        'observacao': observacao,
+        'valor': valor,
+        'id_despesa_fixa': lanc,
+        'id_conta': cartaoSelecionado,
+        'tipo': 'Saida',
+        'data': moment().format('YYYY-MM-DD')
+      }
     }
+    if (tipo == 'Despesa Variavel') {
+      data = {
+        'observacao': observacao,
+        'valor': valor,
+        'id_despesa_variavel': lanc,
+        'id_conta': cartaoSelecionado,
+        'tipo': 'Saida',
+        'data': moment().format('YYYY-MM-DD')
+      }
+    }
+    if (tipo == 'Imposto') {
+      data = {
+        'observacao': observacao,
+        'valor': valor,
+        'id_imposto': lanc,
+        'id_conta': cartaoSelecionado,
+        'tipo': 'Saida',
+        'data': moment().format('YYYY-MM-DD')
+      }
+    }
+    if (tipo == 'Recebimento') {
+      data = {
+        'observacao': observacao,
+        'valor': valor,
+        'id_recebimento': lanc,
+        'id_conta': cartaoSelecionado,
+        'tipo': 'Entrada',
+        'data': moment().format('YYYY-MM-DD')
+      }
+    }
+    if (tipo == 'Transferencia') {
+      data = {
+        'observacao': observacao,
+        'valor': valor,
+        'id_transferencia': lanc,
+        'id_conta': cartaoSelecionado,
+        'tipo': 'Saida',
+        'data': moment().format('YYYY-MM-DD')
+      }
+    }
+    console.log(data)
+
     var config = {
       method: 'POST',
       url: api.url_api + '/lancamento',
@@ -48,7 +90,7 @@ const LancamentoNew = () => {
       const resposta = await axios(config);
       console.log(resposta)
       if (resposta.status == 201 || resposta.status == 200) {
-        history.push('/dashboard/lancamento/');
+        history.push('/dashboard/financeiro/lancamento/');
         toast.info('Lançamento cadastrado com sucesso');
       }
     } catch (error) {
@@ -78,10 +120,6 @@ const LancamentoNew = () => {
     }
     load();
   }, []);
-
-  async function carregarPagamento(e){
-    
-  }
 
   async function carregarTipo(e) {
     e.preventDefault();
@@ -183,7 +221,7 @@ const LancamentoNew = () => {
           </Button>
         </div><br />
         <h2 style={{ textAlign: "center" }}>
-          <Badge bg="secondary">Cadastro de conta bancaria</Badge>
+          <Badge bg="secondary">Lançamento</Badge>
         </h2>
         <Card>
           <Form onSubmit={handleSalvar}>
@@ -218,7 +256,7 @@ const LancamentoNew = () => {
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Tipo do lancamento</Form.Label>
                     <div class="form-group">
-                      <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { tipo == 'Entrada' ? setReceita(e.target.value) || setDespesa(null) : setDespesa(e.target.value) || setReceita(null) }} >
+                      <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setLanc(e.target.value) }} >
                         <option no-onSelect>Selecione</option>
                         {fluxo.map((v) => (
                           <option value={v.id} > {v.nome}</option>
@@ -226,22 +264,6 @@ const LancamentoNew = () => {
                       </select>
                     </div>
                   </Col>
-                  <Col>
-                    <Form.Label style={{ float: 'left' }}>Método de Pagamento</Form.Label>
-                    <div class="form-group">
-                      <select class="form-control pesquisa__select col-12 selectCustom" onClick={carregarPagamento} >
-                        <option no-onSelect>Selecione</option>                     
-                          <option value='Dinheiro' >Dinheiro</option>
-                          <option value='Transferencia' >Transferencia</option>
-                          <option value='Deposito' >Deposito</option>
-                          <option value='Pix' >Pix</option>
-                          <option value='Cartao Debito' >Cartão Debito</option>
-                          <option value='Cartao Credito' >Cartão Credito</option>
-                      </select>
-                    </div>
-                  </Col>
-                </Row>
-                <Row>                  
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Tipo da conta</Form.Label>
                     <div class="form-group">
@@ -253,9 +275,9 @@ const LancamentoNew = () => {
                       </select>
                     </div>
                   </Col>
-                </Row>
+                </Row>               
                 <Button style={{ float: 'left' }} variant="primary" type="submit">
-                  Cadastrar
+                  Fazer Lançamento
                 </Button><br />
               </div>
             </div>

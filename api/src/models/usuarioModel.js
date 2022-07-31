@@ -57,7 +57,7 @@ class usuarioModel {
                     { nome: 'Vale Transporte', status: 'Ativo', id_usuario: ultimoId[0].id },
                 ]).then((despesa_fixa) => {
                     knex('conta').insert([
-                        { nome: 'Carteira', tipo: 'Debito', saldo: 0.1, conta: '9999', status: 'Ativo', id_usuario: ultimoId[0].id },
+                        { nome: 'Carteira', saldo: 0.1, conta: '9999', status: 'Ativo', id_usuario: ultimoId[0].id },
                     ]).then((conta) => {
                         knex('despesa_variavel').insert([
                             { nome: 'Alimentação', status: 'Ativo', id_usuario: ultimoId[0].id },

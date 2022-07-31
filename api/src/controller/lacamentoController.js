@@ -8,18 +8,20 @@ class lacamentoController {
                 'observacao': req.body.observacao,
                 'valor': req.body.valor,
                 'id_usuario': id_usuario,
-                'id_receita': req.body.id_receita,
-                'id_despesa': req.body.id_despesa,
-                'id_cartao': req.body.id_cartao,
+                'id_despesa_fixa': req.body.id_despesa_fixa,
+                'id_despesa_variavel': req.body.id_despesa_variavel,
+                'id_conta': req.body.id_conta,
+                'id_imposto': req.body.id_imposto,
+                'id_recebimento': req.body.id_recebimento,
+                'id_transferencia': req.body.id_transferencia,
                 'tipo': req.body.tipo,
                 'data': req.body.data
-            }
-            console.log(lancamento)
+            }          
             const lanc = new Lacamento();
             const dados = await lanc.salvar(lancamento);
             return res.status(201).json(dados);
         } catch (error) {
-            console.log(error);
+            console.log(error)
             return res.status(400).json({ error: error.error });
         }
     }
