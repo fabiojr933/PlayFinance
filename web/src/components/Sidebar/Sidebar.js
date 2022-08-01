@@ -8,6 +8,7 @@ function Sidebar(props) {
   const [dropdownToggle, setDropDownToggle] = useState(false);
   const [dropdownToggle2, setDropDownToggle2] = useState(false);
   const [dropdownToggle3, setDropDownToggle3] = useState(false);
+  const [dropdownToggle4, setDropDownToggle4] = useState(false);
 
   useEffect(() => {
     setActive(props.location.pathname);
@@ -187,12 +188,89 @@ function Sidebar(props) {
                   </div>
                   <span className="menu-title">Lançamento</span>
                 </Link>
+              </li>   
+
+              <li
+                className={
+                  active === "/dashboard/financeiro/contas-pagar/baixa"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/contas-pagar/baixa">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Baixa doc Pagar</span>
+                </Link>
               </li>            
             
 
               
             </ul>
           </li>
+
+
+
+
+
+          <li
+            className="menu-item-has-children dropdown"
+            onClick={() => setDropDownToggle4(!dropdownToggle4)}
+          >
+            <a
+              href="#"
+              className="dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i className="fa fa-check-square-o nav_icon"></i>Relatorio
+            </a>
+            <ul
+              className={
+                dropdownToggle4
+                  ? "sub-menu children dropdown-menu show"
+                  : "sub-menu children dropdown-menu"
+              }
+            >             
+                
+              <li
+                className={
+                  active === "/dashboard/financeiro/lancamento"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/relatorio">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Lançamentos</span>
+                </Link>
+              </li>      
+
+               <li
+                className={
+                  active === "/dashboard/financeiro/lancamento"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/contas-pagar">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Doc a pagar e pagos</span>
+                </Link>
+              </li>            
+                  
+            
+
+              
+            </ul>
+          </li>
+
 
 
 

@@ -50,6 +50,10 @@ import LancamentoNovo from './views/Pages/lancamento/new';
 
 import Relatorio from './views/Pages/relatorio';
 
+import PagarNew from "./views/Pages/pagar/new";
+import PagarBaixa from './views/Pages/pagar/pagar';
+import PagarIndex from './views/Pages/pagar/index';
+
 var routes = [
   {
     path: "/dashio-admin",
@@ -242,7 +246,25 @@ var routes = [
     path: "/dashboard/financeiro/relatorio",
     layout: BaseLayout,
     component: Relatorio,
+  },
+
+  {
+    path: "/dashboard/financeiro/contas-pagar/novo",
+    layout: BaseLayout,
+    component: PagarNew,
+  },
+  {
+    path: "/dashboard/financeiro/contas-pagar/baixa",
+    layout: BaseLayout,
+    component: PagarBaixa,
+  },
+  {
+    path: "/dashboard/financeiro/contas-pagar",
+    layout: BaseLayout,
+    component: PagarIndex,
   }
+
+
 
 
 

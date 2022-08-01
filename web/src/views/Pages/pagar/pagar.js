@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, Link } from 'react-router-dom';
 import { Button } from "../../../components/Button";
 import { Card } from "../../../components/Card";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { AiFillDollarCircle } from "react-icons/ai";
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
 import api from '../../../services/api';
@@ -15,20 +15,20 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import { BallTriangle } from 'react-loader-spinner'
 
-const Lancamento = () => {
+const DocumentoPagar = () => {
 
     const history = useHistory();
     const [usuario, setUsuario] = useState('');
-    const [lancamento, setLancamentos] = useState([]);
-    const [ano, setAno] = useState(0);
-    const [mes, setMes] = useState(0);
+    const [docPagar, setDocPagar] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [ano, setAno] = useState(0);
+    const [mes, setMes] = useState(0);   
 
-    const handleDel = async (id) => {
+    const handlePagar = async (id) => {
         if (!id) return toast.error('É obrigado informar o Id');
         var config = {
-            method: 'DELETE',
-            url: api.url_api + `/lancamento/${id}`,
+            method: 'PUT',
+            url: api.url_api + `/contasPagar/baixa/${id}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -36,14 +36,14 @@ const Lancamento = () => {
         try {
             const response = await axios(config);
             if (response.status == 200) {
-                history.push('/dashboard/financeiro/lancamento');
-                Carregamento();
-                toast.info('Lançamento excluido com sucesso');
+                history.push('/dashboard/financeiro/contas-pagar/baixa');
+                carregarDocumentoPagar();
+                toast.info('Documento Pago com sucesso');
             }
         } catch (error) {
             toast.error(error.response.data.error);
         }
-    };
+    };    
 
     const carregarLancMes = async (e) => {
         const mesSelecionado = e.target.value;
@@ -51,7 +51,7 @@ const Lancamento = () => {
         setMes(mesSelecionado);
         var config = {
             method: 'GET',
-            url: api.url_api + `/lancamento/${ano}/${mesSelecionado}`,
+            url: api.url_api + `/contasPagar/pendente/${ano}/${mesSelecionado}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -59,7 +59,7 @@ const Lancamento = () => {
         try {
             const resposta = await axios(config);
             if (resposta.status == 200) {
-                setLancamentos(resposta.data)
+                setDocPagar(resposta.data)
             }
         } catch (error) {
             toast.error(error.response.data.error);
@@ -72,7 +72,7 @@ const Lancamento = () => {
         setAno(anoSelecionado);
         var config = {
             method: 'GET',
-            url: api.url_api + `/lancamento/${anoSelecionado}/${mes}`,
+            url: api.url_api + `/contasPagar/pendente/${anoSelecionado}/${mes}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -80,22 +80,21 @@ const Lancamento = () => {
         try {
             const resposta = await axios(config);
             if (resposta.status == 200) {
-                setLancamentos(resposta.data)
+                setDocPagar(resposta.data)
             }
         } catch (error) {
             toast.error(error.response.data.error);
         }
     }
 
-    const Carregamento = async () => {
+    const carregarDocumentoPagar = async () => {
+        const usuario = localStorage.getItem('@usuario');
+        setUsuario(JSON.parse(usuario).token);
         var ano = moment().format('YYYY');
         var mes = moment().format('MM');
-
-        var usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token)
         var config = {
             method: 'GET',
-            url: api.url_api + `/lancamento/${ano}/${mes}`,
+            url: api.url_api + `/contasPagar/pendente/${ano}/${mes}`,
             headers: {
                 Authorization: "Bearer " + JSON.parse(usuario).token
             }
@@ -103,7 +102,7 @@ const Lancamento = () => {
         try {
             const resposta = await axios(config);
             if (resposta.status == 200) {
-                setLancamentos(resposta.data)
+                setDocPagar(resposta.data)
             }
         } catch (error) {
             toast.error(error.response.data.error);
@@ -119,7 +118,7 @@ const Lancamento = () => {
 
     useEffect(() => {
         Datas();
-        Carregamento();
+        carregarDocumentoPagar();
         setTimeout(() => {
             setLoading(false);
         }, 4000);
@@ -154,19 +153,20 @@ const Lancamento = () => {
         return (
             <div className="main-content-container p-4 container-fluid" >
                 <div >
-                    <Button onClick={() => { history.push('/dashboard/financeiro/lancamento/novo') }} type="button" className="button button-primary">
-                        Nova conta bancaria
+                    <Button onClick={() => { history.push('/dashboard/financeiro/contas-pagar/novo') }} type="button" className="button button-primary">
+                        Novo Documento a pagar
                     </Button><br />
                     <h2 style={{ textAlign: "center" }}>
-                        <Badge bg="secondary">Lista de Lancamento {mes}-{ano}</Badge>
+                       <Badge bg="secondary">Lista de lançamentos de Doc Pagar {mes}-{ano} </Badge>
                     </h2>
                     <div class="row" >
                         <div class="col-lg-12" >
                             <Card >
-
+                             
                                 <Row>
                                     <Col>
                                         <Form.Label style={{ paddingLeft: 20 }}>Mes</Form.Label>
+                                     
                                         <div class="form-group" style={{ paddingLeft: 20 }} >
                                             <select class="form-control pesquisa__select col-12 selectCustom" value={mes} onChange={carregarLancMes} >
                                                 <option no-onSelect>Selecione o mes desejado</option>
@@ -198,37 +198,41 @@ const Lancamento = () => {
                                             </select>
                                         </div>
                                     </Col>
-                                </Row><br />
+                                </Row><br />                            
 
 
 
                                 <Table striped bordered hover size="sm">
                                     <thead >
                                         <tr>
-                                            <th style={{ width: '10%' }} >Id</th>
-                                            <th style={{ width: '15%' }}>Tipo</th>
-                                            <th style={{ width: '20%' }}>Valor</th>
-                                            <th style={{ width: '20%' }}>Data</th>
-                                            <th style={{ width: '30%' }}>Fluxo</th>
-                                            <th >Excluir</th>
+                                            <th style={{ width: '8%' }} >Id</th>
+                                            <th style={{ width: '8%' }}>Status</th>
+                                            <th style={{ width: '10%' }}>Valor</th>
+                                            <th style={{ width: '10%' }}>Data Laçamento</th>
+                                            <th style={{ width: '10%' }}>Data Vencimento</th>
+                                            <th style={{ width: '20%' }}>Fluxo</th>       
+                                            <th style={{ width: '30%' }}>Observação</th>                                        
+                                            <th >Pagar</th>
                                         </tr>
                                     </thead>
                                     <tbody >
-                                        {lancamento.map((v) => (
+                                        {docPagar.map((v) => (
                                             <tr>
-                                                <td style={{ width: '10%' }}>{v.id}</td>
-                                                {v.tipo == `Saida` ?
-                                                    <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
-                                                    : (<td style={{ width: '15%', color: '#0069b9' }}  >{v.tipo}</td>)}
+                                                <td style={{ width: '8%' }}>{v.id}</td>
+                                                {v.status == `Pendente` ?
+                                                    <td style={{ width: '8%', color: 'red' }}  >{v.status}</td>
+                                                    : (<td style={{ width: '8%', color: '#0069b9' }}  >{v.status}</td>)}
 
-                                                {v.tipo == `Saida` ?
-                                                    <td style={{ width: '15%', color: 'red' }}  >{v.valor}</td>
-                                                    : (<td style={{ width: '15%', color: '#0069b9' }}  >{v.valor}</td>)}
+                                                {v.status == `Pendente` ?
+                                                    <td style={{ width: '10%', color: 'red' }}  >R$: {v.valor}</td>
+                                                    : (<td style={{ width: '10%', color: '#0069b9' }}  >R$: {v.valor}</td>)}
 
 
-                                                <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
-                                                <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                <td style={{ width: '10%' }}>{moment(v.data_lancamento).format('DD-MM-YYYY')}</td>
+                                                <td style={{ width: '10%' }}>{moment(v.vencimento).format('DD-MM-YYYY')}</td>
+                                                <td style={{ width: '20%' }}>{v.fluxo}</td>     
+                                                <td style={{ width: '30%' }}>{v.observacao}</td>                                               
+                                                <td > <Link onClick={() => { handlePagar(v.id) }} ><AiFillDollarCircle /></Link> </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -242,4 +246,4 @@ const Lancamento = () => {
     }
 }
 
-export default Lancamento;
+export default DocumentoPagar;

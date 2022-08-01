@@ -69,9 +69,10 @@ route.get('/lancamento/:ano/:mes', middlewares.Autorizacao, lancamento.listaRaw)
 route.delete('/lancamento/:id', middlewares.Autorizacao, lancamento.excluir);
 
 route.post('/contasPagar', middlewares.Autorizacao, contaPagar.salvar);
-route.get('/contasPagar', middlewares.Autorizacao, contaPagar.listaAll);
-route.get('/contasPagar/pendente', middlewares.Autorizacao, contaPagar.listaAllPendente);
+route.get('/contasPagar/:ano/:mes', middlewares.Autorizacao, contaPagar.listaAll);
+route.get('/contasPagar/pendente/:ano/:mes', middlewares.Autorizacao, contaPagar.listaAllPendente);
 route.put('/contasPagar/baixa/:id', middlewares.Autorizacao, contaPagar.baixa);
+route.put('/contasPagar/cancelarBaixa/:id', middlewares.Autorizacao, contaPagar.cancelarBaixa);
 route.delete('/contasPagar/:id', middlewares.Autorizacao, contaPagar.excluir);
 
 route.post('/contasReceber', middlewares.Autorizacao, contaReceber.salvar);

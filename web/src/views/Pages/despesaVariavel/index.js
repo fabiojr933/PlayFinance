@@ -9,12 +9,14 @@ import Badge from 'react-bootstrap/Badge';
 import api from '../../../services/api';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { BallTriangle } from 'react-loader-spinner'
 
 const Despesa = () => {
 
     const history = useHistory();
     const [despesaVariavel, setDespesaVariavel] = useState([]);
     const [usuarioToken, setUsuario] = useState('');
+    const [loading, setLoading] = useState(true);
 
     const handleDel = async (id) => {
         if (!id) {
@@ -64,7 +66,37 @@ const Despesa = () => {
 
     useEffect(() => {
         carregarPagina();
+        setTimeout(() => {
+            setLoading(false);
+        }, 4000);
     }, []);
+    
+    if (loading == true) {
+        return (
+            <>
+                <div style={{ textAlign: 'center', color: '#5A92CE', marginTop: 40 }} >
+                    <h2 >
+                        <Badge bg="secondary">Carregando aguarde...</Badge>
+                    </h2>
+                    <br />
+                    <BallTriangle
+                        height={'15%'}
+                        width={'15%'}
+                        radius={3}
+                        color="#5A92CE"
+                        ariaLabel="Carregando...."
+                        wrapperClass={{}}
+                        wrapperStyle={
+                            { justifyContent: 'center', textAlign: 'center' }
+                        }
+                        visible={true}
+                    />
+                </div>
+            </>
+
+        )
+    }
+    else {
     return (
         <div className="main-content-container p-4 container-fluid">
             <div >
@@ -104,6 +136,7 @@ const Despesa = () => {
             </div>
         </div>
     );
+                                    }
 }
 
 export default Despesa;

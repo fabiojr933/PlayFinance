@@ -2,15 +2,23 @@ var contasPagar = require('../models/pagarModel');
 
 class PagarController {
     async listaAll(req, res) {
-        const id_usuario = req.id_usuario;
-        const pag = new contasPagar();
-        const dados = await pag.listaAll(id_usuario);
-        return res.status(200).json(dados);
+        try {
+            const id_usuario = req.id_usuario;
+            const mes = req.params.mes;
+            const ano = req.params.ano;
+            const pag = new contasPagar();
+            const dados = await pag.listaAll(id_usuario, ano, mes);
+            return res.status(200).json(dados);
+        } catch (error) {
+            return res.status(400).json({ error: error.error });
+        }
     }
     async listaAllPendente(req, res) {
         const id_usuario = req.id_usuario;
+        const mes = req.params.mes;
+        const ano = req.params.ano;
         const pag = new contasPagar();
-        const dados = await pag.listaAllPendente(id_usuario);
+        const dados = await pag.listaAllPendente(id_usuario, ano, mes);
         return res.status(200).json(dados);
     }
     async salvar(req, res) {
@@ -59,6 +67,18 @@ class PagarController {
             const id = req.params.id;
             const pag = new contasPagar();
             await pag.baixa(id, id_usuario);
+            return res.status(200).json({ id });
+        } catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: error.error });
+        }
+    }
+    async cancelarBaixa(req, res) {
+        try {
+            const id_usuario = req.id_usuario;
+            const id = req.params.id;
+            const pag = new contasPagar();
+            await pag.cancelarBaixa(id, id_usuario);
             return res.status(200).json({ id });
         } catch (error) {
             console.log(error)

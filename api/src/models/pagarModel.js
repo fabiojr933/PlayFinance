@@ -3,48 +3,52 @@ const Validacao = require('../middlewares/validacao');
 const moment = require('moment');
 
 class pagarModel {
-    async listaAll(id_usuario) {
+    async listaAll(id_usuario, ano, mes) {
         var listaPagar = {};
         if (!id_usuario) throw new Validacao('Usuario não autorizado');
         await knex.raw(`select pag.id, pag.observacao, pag.valor, pag.parcela, pag.status, pag.vencimento,
-                    case
-                    when fixa.nome  <> '' THEN fixa.nome
-                    when var.nome  <> '' THEN var.nome
-                    when imp.nome  <> '' THEN imp.nome
-                    when rec.nome  <> '' THEN rec.nome
-                    when trans.nome  <> '' THEN trans.nome
-                    end  as fluxo
-                    FROM contas_pagar pag
-                    LEFT join despesa_fixa fixa on pag.id_despesa_fixa = fixa.id
-                    LEFT join despesa_variavel var on pag.id_despesa_variavel = var.id
-                    LEFT join imposto imp on pag.id_imposto = imp.id
-                    LEFT join recebimento rec on pag.id_recebimento = rec.id
-                    LEFT join transferencia trans on pag.id_transferencia = trans.id 
+                        case
+                        when fixa.nome  <> '' THEN fixa.nome
+                        when var.nome  <> '' THEN var.nome
+                        when imp.nome  <> '' THEN imp.nome
+                        when rec.nome  <> '' THEN rec.nome
+                        when trans.nome  <> '' THEN trans.nome
+                        end  as fluxo
+                        FROM contas_pagar pag
+                        LEFT join despesa_fixa fixa on pag.id_despesa_fixa = fixa.id
+                        LEFT join despesa_variavel var on pag.id_despesa_variavel = var.id
+                        LEFT join imposto imp on pag.id_imposto = imp.id
+                        LEFT join recebimento rec on pag.id_recebimento = rec.id
+                        LEFT join transferencia trans on pag.id_transferencia = trans.id 
 
-            WHERE  pag.id_usuario = ${id_usuario}`).then(async (res) => {
+                WHERE EXTRACT(month from pag.data_lancamento) = ${mes}
+                and EXTRACT(year from pag.data_lancamento) = ${ano}
+                and pag.id_usuario = ${id_usuario} `).then(async (res) => {
             listaPagar = res.rows;
         });
         return listaPagar;
     }
-    async listaAllPendente(id_usuario) {
+    async listaAllPendente(id_usuario, ano, mes) {
         var listaPagar = {};
         if (!id_usuario) throw new Validacao('Usuario não autorizado');
         await knex.raw(`select pag.id, pag.observacao, pag.valor, pag.parcela, pag.status, pag.vencimento,
-                    case
-                    when fixa.nome  <> '' THEN fixa.nome
-                    when var.nome  <> '' THEN var.nome
-                    when imp.nome  <> '' THEN imp.nome
-                    when rec.nome  <> '' THEN rec.nome
-                    when trans.nome  <> '' THEN trans.nome
-                    end  as fluxo
-                    FROM contas_pagar pag
-                    LEFT join despesa_fixa fixa on pag.id_despesa_fixa = fixa.id
-                    LEFT join despesa_variavel var on pag.id_despesa_variavel = var.id
-                    LEFT join imposto imp on pag.id_imposto = imp.id
-                    LEFT join recebimento rec on pag.id_recebimento = rec.id
-                    LEFT join transferencia trans on pag.id_transferencia = trans.id 
+                        case
+                        when fixa.nome  <> '' THEN fixa.nome
+                        when var.nome  <> '' THEN var.nome
+                        when imp.nome  <> '' THEN imp.nome
+                        when rec.nome  <> '' THEN rec.nome
+                        when trans.nome  <> '' THEN trans.nome
+                        end  as fluxo
+                        FROM contas_pagar pag
+                        LEFT join despesa_fixa fixa on pag.id_despesa_fixa = fixa.id
+                        LEFT join despesa_variavel var on pag.id_despesa_variavel = var.id
+                        LEFT join imposto imp on pag.id_imposto = imp.id
+                        LEFT join recebimento rec on pag.id_recebimento = rec.id
+                        LEFT join transferencia trans on pag.id_transferencia = trans.id 
 
-            WHERE  pag.id_usuario = ${id_usuario} and pag.status = 'Pendente'`).then(async (res) => {
+                WHERE EXTRACT(month from pag.data_lancamento) = ${mes}
+                and EXTRACT(year from pag.data_lancamento) = ${ano}
+                and pag.id_usuario = ${id_usuario} and pag.status = 'Pendente'`).then(async (res) => {
             listaPagar = res.rows;
         });
         return listaPagar;
@@ -86,6 +90,23 @@ class pagarModel {
     async excluir(id, id_usuario) {
         if (!id_usuario) throw new Validacao('Usuario não Autorizado');
         if (!id) throw new Validacao('É preciso informar um documento');
+
+        var valor = null;
+        var id_conta = null;
+        var saldo = null;
+
+        //Pegando os dados necessarios para excluir 
+        await knex('contas_pagar').where({ 'id': Number(id), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            valor = resposta[0].valor;
+            id_conta = Number(resposta[0].id_conta);
+        });
+
+        //Pegando o saldo atual da conta
+        await knex('conta').where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            saldo = resposta[0].saldo;
+        });
+        let atualiza_saldo = Number(saldo) + Number(valor);
+        await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
         await knex('contas_pagar').del().where({ id: id, id_usuario: id_usuario });
     }
     async baixa(id, id_usuario) {
@@ -106,12 +127,36 @@ class pagarModel {
         await knex('conta').where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
             saldo = resposta[0].saldo;
         });
-        console.log(Number(valor), Number(saldo), id_conta)
         //atualiza saldo do banco
         if (Number(saldo) < Number(valor)) throw new Validacao('Saldo insuficiente para pagar esse documento');
         let atualiza_saldo = Number(saldo) - Number(valor);
         await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
         await knex('contas_pagar').update({ 'status': 'Pago' }).where({ 'id': id, 'id_usuario': id_usuario });
+    }
+    async cancelarBaixa(id, id_usuario) {
+        if (!id) throw new Validacao('Escolha um documento para baixar');
+        if (!id_usuario) throw new Validacao('Usuario não autorizado');
+
+        var valor = null;
+        var id_conta = null;
+        var saldo = null;
+
+        //Pegando os dados necessarios para excluir 
+        await knex('contas_pagar').where({ 'id': Number(id), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            valor = resposta[0].valor;
+            id_conta = Number(resposta[0].id_conta);
+        });
+
+        //Pegando o saldo atual da conta
+        await knex('conta').where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            saldo = resposta[0].saldo;
+        });
+        //atualiza saldo do banco
+        if (Number(saldo) < Number(valor)) throw new Validacao('Saldo insuficiente para pagar esse documento');
+        let atualiza_saldo = Number(saldo) + Number(valor);
+        await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
+
+        await knex('contas_pagar').update({ 'status': 'Pendente' }).where({ 'id': id, 'id_usuario': id_usuario });
     }
 }
 
