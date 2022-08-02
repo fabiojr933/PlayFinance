@@ -121,7 +121,7 @@ const DocumentoPagar = () => {
         carregarDocumentoPagar();
         setTimeout(() => {
             setLoading(false);
-        }, 4000);
+        }, 2500);
     }, []);
 
     if (loading == true) {

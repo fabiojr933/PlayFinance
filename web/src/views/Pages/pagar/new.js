@@ -239,11 +239,11 @@ const PagarNew = () => {
                 <Row>
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Valor</Form.Label>
-                    <Form.Control placeholder="Digite o valor" onChange={(e) => { setValor(e.target.value) }} />
+                    <Form.Control type="number" step="0.010" placeholder="Digite o valor" onChange={(e) => { setValor(e.target.value) }} />
                   </Col>
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Quantidade de parcelas</Form.Label>
-                    <Form.Control placeholder="Digite a quantidade" onChange={(e) => { setQtdeParcela(e.target.value) }} />
+                    <Form.Control type="number" placeholder="Digite a quantidade" onChange={(e) => { setQtdeParcela(e.target.value) }} />
                   </Col>
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Dia do vencimento</Form.Label>
@@ -270,7 +270,7 @@ const PagarNew = () => {
                 </Row><br />
                 <Row>
                   <Col>
-                    <Form.Label style={{ float: 'left' }}>Tipo do lancamento</Form.Label>
+                    <Form.Label style={{ float: 'left' }}>Selecione o Fluxo</Form.Label>
                     <div class="form-group">
                       <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setLanc(e.target.value) }} >
                         <option no-onSelect>Selecione</option>

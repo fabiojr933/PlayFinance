@@ -222,8 +222,8 @@ const Lancamento = () => {
                                                     : (<td style={{ width: '15%', color: '#0069b9' }}  >{v.tipo}</td>)}
 
                                                 {v.tipo == `Saida` ?
-                                                    <td style={{ width: '15%', color: 'red' }}  >{v.valor}</td>
-                                                    : (<td style={{ width: '15%', color: '#0069b9' }}  >{v.valor}</td>)}
+                                                    <td style={{ width: '15%', color: 'red' }}  >R$: {v.valor}</td>
+                                                    : (<td style={{ width: '15%', color: '#0069b9' }}  >R$: {v.valor}</td>)}
 
 
                                                 <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>

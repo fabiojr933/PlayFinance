@@ -11,7 +11,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 
-const LancamentoNew = () => {
+const ReceberNew = () => {
   const history = useHistory();
 
   const [fluxo, setFluxo] = useState([]);
@@ -22,65 +22,30 @@ const LancamentoNew = () => {
   const [observacao, setObservacao] = useState('');
   const [valor, setValor] = useState('');
   const [usuario, setUsuario] = useState('');
+  const [qtdeParcela, setQtdeParcela] = useState('');
+  const [vencimento, setVencimento] = useState('');
+  const [qtdeDiaMes, setQdeDiaMes] = useState([]);
 
   async function handleSalvar(e) {
     e.preventDefault();
     var data = {};
-    if (tipo == 'Despesa Fixa') {
-      data = {
-        'observacao': observacao,
-        'valor': valor,
-        'id_despesa_fixa': lanc,
-        'id_conta': cartaoSelecionado,
-        'tipo': 'Saida',
-        'data': moment().format('YYYY-MM-DD')
-      }
-    }
-    if (tipo == 'Despesa Variavel') {
-      data = {
-        'observacao': observacao,
-        'valor': valor,
-        'id_despesa_variavel': lanc,
-        'id_conta': cartaoSelecionado,
-        'tipo': 'Saida',
-        'data': moment().format('YYYY-MM-DD')
-      }
-    }
-    if (tipo == 'Imposto') {
-      data = {
-        'observacao': observacao,
-        'valor': valor,
-        'id_imposto': lanc,
-        'id_conta': cartaoSelecionado,
-        'tipo': 'Saida',
-        'data': moment().format('YYYY-MM-DD')
-      }
-    }
+
     if (tipo == 'Recebimento') {
       data = {
         'observacao': observacao,
         'valor': valor,
         'id_recebimento': lanc,
         'id_conta': cartaoSelecionado,
-        'tipo': 'Entrada',
-        'data': moment().format('YYYY-MM-DD')
+        'status': 'Pendente',
+        'data_lancamento': moment().format('YYYY-MM-DD'),
+        'qtde_parcela': qtdeParcela,
+        'dia_vencimento': vencimento
       }
     }
-    if (tipo == 'Transferencia') {
-      data = {
-        'observacao': observacao,
-        'valor': valor,
-        'id_transferencia': lanc,
-        'id_conta': cartaoSelecionado,
-        'tipo': 'Saida',
-        'data': moment().format('YYYY-MM-DD')
-      }
-    }
-    console.log(data)
 
     var config = {
       method: 'POST',
-      url: api.url_api + '/lancamento',
+      url: api.url_api + '/contasReceber',
       headers: {
         Authorization: "Bearer " + usuario
       },
@@ -88,15 +53,22 @@ const LancamentoNew = () => {
     }
     try {
       const resposta = await axios(config);
-      console.log(resposta)
       if (resposta.status == 201 || resposta.status == 200) {
-        history.push('/dashboard/financeiro/lancamento/');
-        toast.info('Lançamento cadastrado com sucesso');
+        history.push('/dashboard/financeiro/contas-receber/');
+        toast.info('Documento cadastrado com sucesso');
       }
     } catch (error) {
       toast.error(error.response.data.error);
     }
   }
+  useEffect(() => {
+    var dia = []
+    var dias_atual = (moment().endOf('month').format('DD'))
+    for (var i = 1; i <= dias_atual; i++) {
+      dia.push({ 'dia': i });
+    }
+    setQdeDiaMes(dia);
+  }, [])
 
   useEffect(() => {
     async function load() {
@@ -125,74 +97,6 @@ const LancamentoNew = () => {
     e.preventDefault();
     const tipo = e.target.value
     setTipo(tipo);
-    if (tipo == 'Despesa Fixa') {
-      var config = {
-        method: 'GET',
-        url: api.url_api + '/despesaFixa',
-        headers: {
-          Authorization: "Bearer " + usuario
-        }
-      }
-      try {
-        const resposta = await axios(config);
-        if (resposta.status == 200) {
-          setFluxo(resposta.data);
-        }
-      } catch (error) {
-        toast.error(error.response.data.error);
-      }
-    }
-    if (tipo == 'Despesa Variavel') {
-      var config = {
-        method: 'GET',
-        url: api.url_api + '/despesaVariavel',
-        headers: {
-          Authorization: "Bearer " + usuario
-        }
-      }
-      try {
-        const resposta = await axios(config);
-        if (resposta.status == 200) {
-          setFluxo(resposta.data);
-        }
-      } catch (error) {
-        toast.error(error.response.data.error);
-      }
-    }
-    if (tipo == 'Imposto') {
-      var config = {
-        method: 'GET',
-        url: api.url_api + '/imposto',
-        headers: {
-          Authorization: "Bearer " + usuario
-        }
-      }
-      try {
-        const resposta = await axios(config);
-        if (resposta.status == 200) {
-          setFluxo(resposta.data);
-        }
-      } catch (error) {
-        toast.error(error.response.data.error);
-      }
-    }
-    if (tipo == 'Transferencia') {
-      var config = {
-        method: 'GET',
-        url: api.url_api + '/transferencia',
-        headers: {
-          Authorization: "Bearer " + usuario
-        }
-      }
-      try {
-        const resposta = await axios(config);
-        if (resposta.status == 200) {
-          setFluxo(resposta.data);
-        }
-      } catch (error) {
-        toast.error(error.response.data.error);
-      }
-    }
     if (tipo == 'Recebimento') {
       var config = {
         method: 'GET',
@@ -221,7 +125,7 @@ const LancamentoNew = () => {
           </Button>
         </div><br />
         <h2 style={{ textAlign: "center" }}>
-          <Badge bg="secondary">Lançamento</Badge>
+          <Badge bg="secondary">Cadastro de documentos a receber</Badge>
         </h2>
         <Card>
           <Form onSubmit={handleSalvar}>
@@ -239,22 +143,32 @@ const LancamentoNew = () => {
                     <Form.Control type="number" step="0.010" placeholder="Digite o valor" onChange={(e) => { setValor(e.target.value) }} />
                   </Col>
                   <Col>
+                    <Form.Label style={{ float: 'left' }}>Quantidade de parcelas</Form.Label>
+                    <Form.Control type="number" placeholder="Digite a quantidade" onChange={(e) => { setQtdeParcela(e.target.value) }} />
+                  </Col>
+                  <Col>
+                    <Form.Label style={{ float: 'left' }}>Dia do vencimento</Form.Label>
+                    <div class="form-group">
+                      <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setVencimento(e.target.value) }}>
+                        {qtdeDiaMes.map((v) => (
+                          <option value={v.dia}>{v.dia}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </Col>
+                  <Col>
                     <Form.Label style={{ float: 'left' }}>Tipo do lancamento</Form.Label>
                     <div class="form-group">
                       <select class="form-control pesquisa__select col-12 selectCustom" onClick={carregarTipo}>
                         <option no-onSelect>Selecione</option>
-                        <option value="Despesa Fixa">Despesa Fixa</option>
-                        <option value="Despesa Variavel" >Despesa Variavel</option>
-                        <option value="Imposto" >Imposto</option>
-                        <option value="Recebimento" >Recebimento</option>
-                        <option value="Transferencia" >Transferencia</option>
+                        <option value="Recebimento">Recebimento</option>
                       </select>
                     </div>
                   </Col>
                 </Row><br />
                 <Row>
                   <Col>
-                    <Form.Label style={{ float: 'left' }}>Tipo do lancamento</Form.Label>
+                    <Form.Label style={{ float: 'left' }}>Selecione o Fluxo</Form.Label>
                     <div class="form-group">
                       <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setLanc(e.target.value) }} >
                         <option no-onSelect>Selecione</option>
@@ -275,7 +189,7 @@ const LancamentoNew = () => {
                       </select>
                     </div>
                   </Col>
-                </Row>               
+                </Row>
                 <Button style={{ float: 'left' }} variant="primary" type="submit">
                   Fazer Lançamento
                 </Button><br />
@@ -288,4 +202,4 @@ const LancamentoNew = () => {
   );
 }
 
-export default LancamentoNew;
+export default ReceberNew;

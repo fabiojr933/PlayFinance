@@ -8,6 +8,7 @@ import Pages from "./views/Pages/Pages";
 import Login from './views/Pages/login';
 import Register from './views/Pages/register';
 
+
 import routes from "./routes";
 class App extends Component {
   constructor(props) {

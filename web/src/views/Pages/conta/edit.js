@@ -95,7 +95,7 @@ const ContaEdit = () => {
                 </Col>
                 <Col>
                   <Form.Label style={{ float: 'left' }}>Saldo</Form.Label>
-                  <Form.Control placeholder="Digite o saldo da conta" value={saldo} onChange={(e) => { setSaldo(e.target.value) }} />
+                  <Form.Control type="number" step="0.010" placeholder="Digite o saldo da conta" value={saldo} onChange={(e) => { setSaldo(e.target.value) }} />
                 </Col>
               </Row><br />             
               <Button style={{ float: 'left' }} variant="primary" type="submit">

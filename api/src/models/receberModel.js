@@ -3,7 +3,7 @@ const Validacao = require('../middlewares/validacao');
 const moment = require('moment');
 
 class receberModel {
-    async listaAll(id_usuario) {
+    async listaAll(id_usuario, ano, mes) {
         var listaReceber = {};
         if (!id_usuario) throw new Validacao('Usuario não autorizado');
         await knex.raw(`select rb.id, rb.observacao, rb.valor, rb.parcela, rb.status, rb.vencimento,
@@ -21,12 +21,14 @@ class receberModel {
                         LEFT join recebimento rec on rb.id_recebimento = rec.id
                         LEFT join transferencia trans on rb.id_transferencia = trans.id 
 
-                WHERE  rb.id_usuario = ${id_usuario}`).then(async (res) => {
+                        WHERE EXTRACT(month from rb.data_lancamento) = ${mes}
+                        and EXTRACT(year from rb.data_lancamento) = ${ano}
+                        and rb.id_usuario = ${id_usuario} `).then(async (res) => {
             listaReceber = res.rows;
         });
         return listaReceber;
     }
-    async listaAllPendente(id_usuario) {
+    async listaAllPendente(id_usuario, ano, mes) {
         var listaReceber = {};
         if (!id_usuario) throw new Validacao('Usuario não autorizado');
         await knex.raw(`select rb.id, rb.observacao, rb.valor, rb.parcela, rb.status, rb.vencimento,
@@ -44,7 +46,9 @@ class receberModel {
                         LEFT join recebimento rec on rb.id_recebimento = rec.id
                         LEFT join transferencia trans on rb.id_transferencia = trans.id 
 
-                WHERE  rb.id_usuario = ${id_usuario} and rb.status = 'Pendente'`).then(async (res) => {
+                        WHERE EXTRACT(month from rb.data_lancamento) = ${mes}
+                        and EXTRACT(year from rb.data_lancamento) = ${ano}
+                        and rb.id_usuario = ${id_usuario} and rb.status = 'Pendente'`).then(async (res) => {
             listaReceber = res.rows;
         });
         return listaReceber;
@@ -86,6 +90,24 @@ class receberModel {
     async excluir(id, id_usuario) {
         if (!id_usuario) throw new Validacao('Usuario não Autorizado');
         if (!id) throw new Validacao('É preciso informar um documento');
+
+        var valor = null;
+        var id_conta = null;
+        var saldo = null;
+
+        //Pegando os dados necessarios para excluir 
+        await knex('contas_receber').where({ 'id': Number(id), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            valor = resposta[0].valor;
+            id_conta = Number(resposta[0].id_conta);
+        });
+
+        //Pegando o saldo atual da conta
+        await knex('conta').where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            saldo = resposta[0].saldo;
+        });
+        let atualiza_saldo = Number(saldo) - Number(valor);
+        await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
+
         await knex('contas_receber').del().where({ id: id, id_usuario: id_usuario });
     }
     async baixa(id, id_usuario) {
@@ -110,7 +132,33 @@ class receberModel {
         //  if (Number(saldo) < Number(valor)) throw new Validacao('Saldo insuficiente para pagar esse documento');
         let atualiza_saldo = Number(saldo) + Number(valor);
         await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
-        await knex('contas_receber').update({ 'status': 'Pago' }).where({ 'id': id, 'id_usuario': id_usuario });
+        await knex('contas_receber').update({ 'status': 'Recebido' }).where({ 'id': id, 'id_usuario': id_usuario });
+    }
+
+    async cancelarRecebimento(id, id_usuario) {
+        if (!id) throw new Validacao('Escolha um documento para cancelar');
+        if (!id_usuario) throw new Validacao('Usuario não autorizado');
+
+        var valor = null;
+        var id_conta = null;
+        var saldo = null;
+
+        //Pegando os dados necessarios para excluir 
+        await knex('contas_receber').where({ 'id': Number(id), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            valor = resposta[0].valor;
+            id_conta = Number(resposta[0].id_conta);
+        });
+
+        //Pegando o saldo atual da conta
+        await knex('conta').where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
+            saldo = resposta[0].saldo;
+        });
+        //atualiza saldo do banco
+        if (Number(saldo) < Number(valor)) throw new Validacao('Saldo insuficiente para pagar esse documento');
+        let atualiza_saldo = Number(saldo) - Number(valor);
+        await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
+
+        await knex('contas_receber').update({ 'status': 'Pendente' }).where({ 'id': id, 'id_usuario': id_usuario });
     }
 }
 

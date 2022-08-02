@@ -33,9 +33,9 @@ function Sidebar(props) {
           </li>
 
 
-      {/*  Meus menu */}
+          {/*  Meus menu */}
 
-      <li
+          <li
             className="menu-item-has-children dropdown"
             onClick={() => setDropDownToggle2(!dropdownToggle2)}
           >
@@ -54,8 +54,8 @@ function Sidebar(props) {
                   ? "sub-menu children dropdown-menu show"
                   : "sub-menu children dropdown-menu"
               }
-            >             
-                
+            >
+
               <li
                 className={
                   active === "/dashboard/despesa-fixa"
@@ -130,9 +130,9 @@ function Sidebar(props) {
                   <span className="menu-title">Imposto</span>
                 </Link>
               </li>
-             
-             
-                  
+
+
+
               <li
                 className={
                   active === "/dashboard/conta"
@@ -148,10 +148,10 @@ function Sidebar(props) {
                 </Link>
               </li>
 
-              
+
             </ul>
-          </li>             
-           
+          </li>
+
 
 
           <li
@@ -173,8 +173,8 @@ function Sidebar(props) {
                   ? "sub-menu children dropdown-menu show"
                   : "sub-menu children dropdown-menu"
               }
-            >             
-                
+            >
+
               <li
                 className={
                   active === "/dashboard/financeiro/lancamento"
@@ -188,7 +188,7 @@ function Sidebar(props) {
                   </div>
                   <span className="menu-title">Lançamento</span>
                 </Link>
-              </li>   
+              </li>
 
               <li
                 className={
@@ -203,10 +203,25 @@ function Sidebar(props) {
                   </div>
                   <span className="menu-title">Baixa doc Pagar</span>
                 </Link>
-              </li>            
-            
+              </li>
 
-              
+              <li
+                className={
+                  active === "/dashboard/financeiro/contas-receber/baixa"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/contas-receber/baixa">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Baixa doc Receber</span>
+                </Link>
+              </li>
+
+
+
             </ul>
           </li>
 
@@ -233,8 +248,8 @@ function Sidebar(props) {
                   ? "sub-menu children dropdown-menu show"
                   : "sub-menu children dropdown-menu"
               }
-            >             
-                
+            >
+
               <li
                 className={
                   active === "/dashboard/financeiro/lancamento"
@@ -248,11 +263,11 @@ function Sidebar(props) {
                   </div>
                   <span className="menu-title">Lançamentos</span>
                 </Link>
-              </li>      
+              </li>
 
-               <li
+              <li
                 className={
-                  active === "/dashboard/financeiro/lancamento"
+                  active === "/dashboard/financeiro/contas-pagar"
                     ? "active"
                     : null
                 }
@@ -263,11 +278,26 @@ function Sidebar(props) {
                   </div>
                   <span className="menu-title">Doc a pagar e pagos</span>
                 </Link>
-              </li>            
-                  
-            
+              </li>
 
-              
+              <li
+                className={
+                  active === "/dashboard/financeiro/o/contas-receber"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/contas-receber">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Doc a receber e recebido</span>
+                </Link>
+              </li>
+
+
+
+
             </ul>
           </li>
 

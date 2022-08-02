@@ -3,14 +3,18 @@ var contasReceber = require('../models/receberModel');
 class ReceberController {
     async listaAll(req, res) {
         const id_usuario = req.id_usuario;
+        const mes = req.params.mes;
+        const ano = req.params.ano;
         const rec = new contasReceber();
-        const dados = await rec.listaAll(id_usuario);
+        const dados = await rec.listaAll(id_usuario, ano, mes);
         return res.status(200).json(dados);
     }
     async listaAllPendente(req, res) {
         const id_usuario = req.id_usuario;
+        const mes = req.params.mes;
+        const ano = req.params.ano;
         const rec = new contasReceber();
-        const dados = await rec.listaAllPendente(id_usuario);
+        const dados = await rec.listaAllPendente(id_usuario, ano, mes);
         return res.status(200).json(dados);
     }
     async salvar(req, res) {
@@ -59,6 +63,18 @@ class ReceberController {
             const id = req.params.id;
             const rec = new contasReceber();
             await rec.baixa(id, id_usuario);
+            return res.status(200).json({ id });
+        } catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: error.error });
+        }
+    }
+    async cancelarRecebimento(req, res) {
+        try {
+            const id_usuario = req.id_usuario;
+            const id = req.params.id;
+            const rec = new contasReceber();
+            await rec.cancelarRecebimento(id, id_usuario);
             return res.status(200).json({ id });
         } catch (error) {
             console.log(error)

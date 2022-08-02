@@ -97,7 +97,7 @@ const Conta = () => {
                                             <td style={{ width: '10%' }}>{v.id}</td>
                                             <td style={{ width: '50%' }}>{v.nome}</td>
                                             <td style={{ width: '20%' }}>{v.conta}</td>
-                                            <td style={{ width: '20%' }}>{v.saldo}</td>
+                                            <td style={{ width: '20%' }}>R$: {v.saldo}</td>
                                             <td > <Link onClick={() => { handleEditar(v.id) }} ><AiFillEdit /></Link> </td>
                                             <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
                                         </tr>

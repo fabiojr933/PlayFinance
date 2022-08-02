@@ -25,8 +25,8 @@ class PagarController {
         try {
             const id_usuario = req.id_usuario;
             const pagar = {
-                'observacao': req.body.observacao.trim(),
-                'status': req.body.status.trim(),
+                'observacao': req.body.observacao,
+                'status': req.body.status,
                 'data_lancamento': req.body.data_lancamento,
                 'vencimento': req.body.vencimento,
                 'qtde_parcela': req.body.qtde_parcela,

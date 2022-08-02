@@ -68,7 +68,7 @@ const DespesaFixa = () => {
         carregarPagina();
         setTimeout(() => {
             setLoading(false);
-        }, 4000);
+        }, 2000);
     }, []);
 
     if (loading == true) {
@@ -106,8 +106,8 @@ const DespesaFixa = () => {
                     <h2 style={{ textAlign: "center" }}>
                         <Badge bg="secondary">Lista de despesa fixa</Badge>
                     </h2>
-                    <div class="row">
-                        <div class="col-lg-12">
+                    <div className="row">
+                        <div className="col-lg-12">
                             <Card>
 
                                 <Table striped bordered hover size="sm">
@@ -121,7 +121,7 @@ const DespesaFixa = () => {
                                     </thead>
                                     <tbody>
                                         {despesaFixa.map((v, i) => (
-                                            <tr>
+                                            <tr key={v.id}>
                                                 <td style={{ width: '10%' }}>{v.id}</td>
                                                 <td style={{ width: '80%' }}>{v.nome}</td>
                                                 <td > <Link onClick={() => handleEditar(v.id)}><AiFillEdit /></Link> </td>

@@ -69,7 +69,7 @@ const Receita = () => {
         Carregamento();
         setTimeout(() => {
             setLoading(false);
-        }, 4000);
+        }, 2000);
     }, [])
 
     if (loading == true) {

@@ -55,11 +55,10 @@ class pagarModel {
     }
     async salvar(pagar) {
 
-        var dados = [];
-        if (!pagar.status) throw new Validacao('É obrigado informar o status');
-        if (!pagar.data_lancamento) throw new Validacao('É obrigado informar a data do lançamento');
+        var dados = [];          
         if (!pagar.qtde_parcela) throw new Validacao('É obrigado informar a quantidade de parcela');
         if (!pagar.valor) throw new Validacao('É obrigado informar o valor');
+        if(pagar.valor <= 0) throw new Validacao('Valor é invalido');
 
         pagar.qtde_parcela = Number(pagar.qtde_parcela);
         pagar.data_lancamento = moment(pagar.data_lancamento).format(`YYYY-MM-DD`);

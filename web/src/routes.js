@@ -54,6 +54,10 @@ import PagarNew from "./views/Pages/pagar/new";
 import PagarBaixa from './views/Pages/pagar/pagar';
 import PagarIndex from './views/Pages/pagar/index';
 
+import ReceberNew from "./views/Pages/receber/new";
+import ReceberBaixa from './views/Pages/receber/receber';
+import ReceberIndex from './views/Pages/receber/index';
+
 var routes = [
   {
     path: "/dashio-admin",
@@ -262,7 +266,24 @@ var routes = [
     path: "/dashboard/financeiro/contas-pagar",
     layout: BaseLayout,
     component: PagarIndex,
+  },
+
+  {
+    path: "/dashboard/financeiro/contas-receber/novo",
+    layout: BaseLayout,
+    component: ReceberNew,
+  },
+  {
+    path: "/dashboard/financeiro/contas-receber/baixa",
+    layout: BaseLayout,
+    component: ReceberBaixa,
+  },
+  {
+    path: "/dashboard/financeiro/contas-receber",
+    layout: BaseLayout,
+    component: ReceberIndex,
   }
+
 
 
 

@@ -15,11 +15,11 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import { BallTriangle } from 'react-loader-spinner'
 
-const Lancamento = () => {
+const DocumentoReceber = () => {
 
     const history = useHistory();
     const [usuario, setUsuario] = useState('');
-    const [docPagar, setDocPagar] = useState([]);
+    const [docReceber, setDocReceber] = useState([]);
     const [loading, setLoading] = useState(true);
     const [ano, setAno] = useState(0);
     const [mes, setMes] = useState(0);
@@ -28,7 +28,7 @@ const Lancamento = () => {
         if (!id) return toast.error('É obrigado informar o Id');
         var config = {
             method: 'DELETE',
-            url: api.url_api + `/contasPagar/${id}`,
+            url: api.url_api + `/contasReceber/${id}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -36,8 +36,8 @@ const Lancamento = () => {
         try {
             const response = await axios(config);
             if (response.status == 200) {
-                history.push('/dashboard/financeiro/contas-pagar');
-                carregarDocumentoPagar();
+                history.push('/dashboard/financeiro/contas-receber');
+                carregarDocumentoReceber();
                 toast.info('Documento excluido com sucesso');
             }
         } catch (error) {
@@ -45,11 +45,11 @@ const Lancamento = () => {
         }
     };
 
-    const handleCancelarBaixa = async (id) => {
+    const handleCancelarRecebimento = async (id) => {
         if (!id) return toast.error('É obrigado informar o Id');
         var config = {
             method: 'PUT',
-            url: api.url_api + `/contasPagar/cancelarBaixa/${id}`,
+            url: api.url_api + `/contasReceber/cancelarRecebimento/${id}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -57,8 +57,9 @@ const Lancamento = () => {
         try {
             const response = await axios(config);
             if (response.status == 200) {
-                history.push('/dashboard/financeiro/contas-pagar');
-                carregarDocumentoPagar();
+                history.push('/dashboard/financeiro/contas-receber');
+                carregarDocumentoReceber();
+                console.log(docReceber)
                 toast.info('Baixa cancelado com sucesso');
             }
         } catch (error) {
@@ -72,7 +73,7 @@ const Lancamento = () => {
         setMes(mesSelecionado);
         var config = {
             method: 'GET',
-            url: api.url_api + `/contasPagar/${ano}/${mesSelecionado}`,
+            url: api.url_api + `/contasReceber/${ano}/${mesSelecionado}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -80,7 +81,7 @@ const Lancamento = () => {
         try {
             const resposta = await axios(config);
             if (resposta.status == 200) {
-                setDocPagar(resposta.data)
+                setDocReceber(resposta.data)
             }
         } catch (error) {
             toast.error(error.response.data.error);
@@ -93,7 +94,7 @@ const Lancamento = () => {
         setAno(anoSelecionado);
         var config = {
             method: 'GET',
-            url: api.url_api + `/contasPagar/${anoSelecionado}/${mes}`,
+            url: api.url_api + `/contasReceber/${anoSelecionado}/${mes}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -101,21 +102,21 @@ const Lancamento = () => {
         try {
             const resposta = await axios(config);
             if (resposta.status == 200) {
-                setDocPagar(resposta.data)
+                setDocReceber(resposta.data)
             }
         } catch (error) {
             toast.error(error.response.data.error);
         }
     }
 
-    const carregarDocumentoPagar = async () => {
+    const carregarDocumentoReceber = async () => {
         const usuario = localStorage.getItem('@usuario');
         setUsuario(JSON.parse(usuario).token);
         var ano = moment().format('YYYY');
         var mes = moment().format('MM');
         var config = {
             method: 'GET',
-            url: api.url_api + `/contasPagar/${ano}/${mes}`,
+            url: api.url_api + `/contasReceber/${ano}/${mes}`,
             headers: {
                 Authorization: "Bearer " + JSON.parse(usuario).token
             }
@@ -123,7 +124,7 @@ const Lancamento = () => {
         try {
             const resposta = await axios(config);
             if (resposta.status == 200) {
-                setDocPagar(resposta.data)
+                setDocReceber(resposta.data)
             }
         } catch (error) {
             toast.error(error.response.data.error);
@@ -139,7 +140,7 @@ const Lancamento = () => {
 
     useEffect(() => {
         Datas();
-        carregarDocumentoPagar();
+        carregarDocumentoReceber();
         setTimeout(() => {
             setLoading(false);
         }, 2500);
@@ -174,11 +175,11 @@ const Lancamento = () => {
         return (
             <div className="main-content-container p-4 container-fluid" >
                 <div >
-                    <Button onClick={() => { history.push('/dashboard/financeiro/contas-pagar/baixa') }} type="button" className="button button-primary">
-                        Pagar documento
+                    <Button onClick={() => { history.push('/dashboard/financeiro/contas-receber/baixa') }} type="button" className="button button-primary">
+                        Receber documento
                     </Button><br />
                     <h2 style={{ textAlign: "center" }}>
-                        <Badge bg="secondary">Lista de lançamentos de Doc Pagar {mes}-{ano} </Badge>
+                        <Badge bg="secondary">Lista de lançamentos de Doc Receber {mes}-{ano} </Badge>
                     </h2>
                     <div class="row" >
                         <div class="col-lg-12" >
@@ -238,7 +239,7 @@ const Lancamento = () => {
                                         </tr>
                                     </thead>
                                     <tbody >
-                                        {docPagar.map((v) => (
+                                        {docReceber.map((v) => (
                                             <tr>
                                                 <td style={{ width: '8%' }}>{v.id}</td>
                                                 {v.status == `Pendente` ?
@@ -255,8 +256,10 @@ const Lancamento = () => {
                                                 <td style={{ width: '20%' }}>{v.fluxo}</td>
                                                 <td style={{ width: '30%' }}>{v.observacao}</td>
                                                 <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
-                                                {v.status == 'Pendente' ? <td></td> :
-                                                    <td > <Link onClick={() => { handleCancelarBaixa(v.id) }} ><AiFillExclamationCircle /></Link> </td>}
+                                                {v.status == `Pendente` ? <td ></td > :
+                                                    <td > <Link onClick={() => { handleCancelarRecebimento(v.id) }} ><AiFillExclamationCircle /></Link> </td>
+                                                    }
+
                                             </tr>
                                         ))}
                                     </tbody>
@@ -270,4 +273,4 @@ const Lancamento = () => {
     }
 }
 
-export default Lancamento;
+export default DocumentoReceber;
