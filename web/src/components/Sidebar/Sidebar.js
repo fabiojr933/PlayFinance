@@ -9,6 +9,7 @@ function Sidebar(props) {
   const [dropdownToggle2, setDropDownToggle2] = useState(false);
   const [dropdownToggle3, setDropDownToggle3] = useState(false);
   const [dropdownToggle4, setDropDownToggle4] = useState(false);
+  const [dropdownToggle5, setDropDownToggle5] = useState(false);
 
   useEffect(() => {
     setActive(props.location.pathname);
@@ -294,10 +295,6 @@ function Sidebar(props) {
                   <span className="menu-title">Doc a receber e recebido</span>
                 </Link>
               </li>
-
-
-
-
             </ul>
           </li>
 
@@ -308,7 +305,7 @@ function Sidebar(props) {
 
           <li
             className="menu-item-has-children dropdown"
-            onClick={() => setDropDownToggle(!dropdownToggle)}
+            onClick={() => setDropDownToggle5(!dropdownToggle5)}
           >
             <a
               href="#"
@@ -317,171 +314,37 @@ function Sidebar(props) {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i className="menu-icon fa fa-cogs"></i>Components
+              <i className="fa fa-check-square-o nav_icon"></i>Graficos
             </a>
             <ul
               className={
-                dropdownToggle
+                dropdownToggle5
                   ? "sub-menu children dropdown-menu show"
                   : "sub-menu children dropdown-menu"
               }
             >
+
               <li
                 className={
-                  active === "/dashio-admin/components/buttons"
+                  active === "/dashboard/financeiro/grafico"
                     ? "active"
                     : null
                 }
               >
-                <a href="/dashio-admin/components/buttons">
+                <Link to="/dashboard/financeiro/grafico">
                   <div className="menu-icon">
                     <i className="fa fa-puzzle-piece"></i>
                   </div>
-                  <span className="menu-title">Buttons</span>
-                </a>
-              </li>
-              <li
-                className={
-                  active === "/dashio-admin/components/badge" ? "active" : null
-                }
-              >
-                <a href="/dashio-admin/components/badge">
-                  <div className="menu-icon">
-                    <i className="fa fa-id-badge"></i>
-                  </div>
-                  <span className="menu-title">Badges</span>
-                </a>
-              </li>
-              <li
-                className={
-                  active === "/dashio-admin/components/card" ? "active" : null
-                }
-              >
-                <a href="/dashio-admin/components/card">
-                  <div className="menu-icon">
-                    <i className="fa fa-id-card-o"></i>
-                  </div>
-                  <span className="menu-title">Cards</span>
-                </a>
+                  <span className="menu-title">Graficos</span>
+                </Link>
               </li>
 
-              <li
-                className={
-                  active === "/dashio-admin/components/alert" ? "active" : null
-                }
-              >
-                <a href="/dashio-admin/components/alert">
-                  <div className="menu-icon">
-                    <i className="fa fa-exclamation-triangle"></i>
-                  </div>
-                  <span className="menu-title">Alerts</span>
-                </a>
-              </li>
-              <li
-                className={
-                  active === "/dashio-admin/components/progressbar"
-                    ? "active"
-                    : null
-                }
-              >
-                <a href="/dashio-admin/components/progressbar">
-                  <div className="menu-icon">
-                    <i className="fa fa-tasks"></i>
-                  </div>
-                  <span className="menu-title">Progress Bars</span>
-                </a>
-              </li>
 
-              <li
-                className={
-                  active === "/dashio-admin/components/loader" ? "active" : null
-                }
-              >
-                <a href="/dashio-admin/components/loader">
-                  <div className="menu-icon">
-                    <i className="fa fa-spinner"></i>
-                  </div>
-                  <span className="menu-title">Loader</span>
-                </a>
-              </li>
             </ul>
           </li>
 
-
-
-
-
-
-          {/* <li className={active === "/widgets" ? "active" : null}>
-            <a href="/widgets">
-              <div className="menu-icon">
-                <i className="fa fa-th-large nav_icon" aria-hidden="true"></i>
-              </div>
-              <span className="menu-title">Widgets</span>
-            </a>   fa fa-book nav_icon
-          </li> */}
-
-          <li className={active === "/dashboard/lancamento" ? "active" : null}>
-            <a href="/dashboard/lancamento">
-              <div className="menu-icon">
-                <i
-                  className="fa fa-check-square-o nav_icon"
-                  aria-hidden="true"
-                ></i>
-              </div>
-              <span className="menu-title">Forms</span>
-            </a>
-          </li>
-
-          <li className={active === "/dashio-admin/tables" ? "active" : null}>
-            <a href="/dashio-admin/tables">
-              <div className="menu-icon">
-                <i className="fa fa-table nav_icon" aria-hidden="true"></i>
-              </div>
-              <span className="menu-title">Tables</span>
-            </a>
-          </li>
-
-          <li className={active === "/dashio-admin/pages" ? "active" : null}>
-            <a href="/dashio-admin/pages">
-              <div className="menu-icon">
-                <i
-                  className="fa fa-file-text-o nav_icon"
-                  aria-hidden="true"
-                ></i>
-              </div>
-              <span className="menu-title">Pages</span>
-            </a>
-          </li>
-
-          <li className={active === "/dashio-admin/charts" ? "active" : null}>
-            <a href="/dashio-admin/charts">
-              <div className="menu-icon">
-                <i className="fa fa-bar-chart nav_icon" aria-hidden="true"></i>
-              </div>
-              <span className="menu-title">Charts</span>
-            </a>
-          </li>
         </ul>
 
-        {/* <ul className="list-unstyled CTAs">
-              <li>
-                <a
-                  href="https://bootstrapious.com/tutorial/files/sidebar.zip"
-                  className="download"
-                >
-                  Download source
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://bootstrapious.com/p/bootstrap-sidebar"
-                  className="article"
-                >
-                  Back to article
-                </a>
-              </li>
-      </ul> */}
       </nav>
     </div>
   );

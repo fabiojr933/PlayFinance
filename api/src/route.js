@@ -11,6 +11,7 @@ const lancamentoController = require('./controller/lacamentoController');
 const transferenciaController = require('./controller/transferenciaController');
 const pagarController = require('./controller/pagarController');
 const receberController = require('./controller/receberController');
+const GraficoController = require('./controller/graficoController');
 
 const usuario = new usuarioController();
 const despesaFixa = new despesaFixaController();
@@ -22,6 +23,7 @@ const transferencia = new transferenciaController();
 const lancamento = new lancamentoController();
 const contaPagar = new pagarController();
 const contaReceber = new receberController();
+const grafico = new GraficoController();
 
 route.post('/usuario', usuario.salvar);
 route.put('/usuario/:id', usuario.alterar);
@@ -81,5 +83,7 @@ route.get('/contasReceber/pendente/:ano/:mes', middlewares.Autorizacao, contaRec
 route.put('/contasReceber/baixa/:id', middlewares.Autorizacao, contaReceber.baixa);
 route.put('/contasReceber/cancelarRecebimento/:id', middlewares.Autorizacao, contaReceber.cancelarRecebimento);
 route.delete('/contasReceber/:id', middlewares.Autorizacao, contaReceber.excluir);
+
+route.get('/grafico/lancamentos/:ano/:mes', middlewares.Autorizacao, grafico.graficoLancamentos);
 
 module.exports = route;
