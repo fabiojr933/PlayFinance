@@ -85,8 +85,6 @@ const Relatorio = () => {
             }
         }
         try {
-            console.log(anoCerto)
-            console.log(config)
             const resposta = await axios(config);
             if (resposta.status == 200) {
                 setJaneiro(resposta.data)
@@ -385,17 +383,17 @@ const Relatorio = () => {
                     <h2 style={{ textAlign: "center" }}>
                         <Badge bg="secondary">Lista de Lancamento {ano == 0 ? moment().format('YYYY') : ano}</Badge>
                     </h2>
-                    <div class="row" >
-                        <div class="col-lg-12" >
+                    <div className="row" >
+                        <div className="col-lg-12" >
                             <Card >
 
                                 <Row>
                                     <Col>
                                         <Form.Label style={{ paddingLeft: 25 }}>Ano</Form.Label>
-                                        <div class="form-group" style={{ padding: 20 }}>
-                                            <select class="form-control pesquisa__select col-12 selectCustom" value={ano == 0 ? moment().format('YYYY') : ano}
+                                        <div className="form-group" style={{ padding: 20 }}>
+                                            <select className="form-control pesquisa__select col-12 selectCustom" value={ano == 0 ? moment().format('YYYY') : ano}
                                                 onChange={(e) => { setAno(e.target.value) }} onClick={handleCarregarAno} >
-                                                <option no-onSelect>Selecione o ano desejado</option>
+                                                <option >Selecione o ano desejado</option>
                                                 <option value="2022">2022</option>
                                                 <option value="2023">2023</option>
                                                 <option value="2024">2024</option>
@@ -427,7 +425,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {janeiro.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -440,7 +438,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -460,7 +458,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {fevereiro.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -473,7 +471,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -493,7 +491,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {marco.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -506,7 +504,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -526,7 +524,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {abril.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -539,7 +537,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -559,7 +557,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {maio.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -572,7 +570,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -592,7 +590,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {junho.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -605,7 +603,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -625,7 +623,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {julho.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -638,7 +636,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -658,7 +656,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {agosto.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -671,7 +669,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -691,7 +689,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {setembro.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -704,7 +702,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -724,7 +722,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {outubro.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -737,7 +735,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -757,7 +755,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {novembro.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -770,7 +768,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -790,7 +788,7 @@ const Relatorio = () => {
                                             </thead>
                                             <tbody >
                                                 {desembro.map((v) => (
-                                                    <tr>
+                                                    <tr key={v.id}>
                                                         <td style={{ width: '10%' }}>{v.id}</td>
                                                         {v.tipo == `Saida` ?
                                                             <td style={{ width: '15%', color: 'red' }}  >{v.tipo}</td>
@@ -803,7 +801,7 @@ const Relatorio = () => {
 
                                                         <td style={{ width: '20%' }}>{moment(v.data).format('DD-MM-YYYY')}</td>
                                                         <td style={{ width: '30%' }}>{v.fluxo}</td>
-                                                        <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                        <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                     </tr>
                                                 ))}
                                             </tbody>

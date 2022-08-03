@@ -240,9 +240,9 @@ const LancamentoNew = () => {
                   </Col>
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Tipo do lancamento</Form.Label>
-                    <div class="form-group">
-                      <select class="form-control pesquisa__select col-12 selectCustom" onClick={carregarTipo}>
-                        <option no-onSelect>Selecione</option>
+                    <div className="form-group">
+                      <select className="form-control pesquisa__select col-12 selectCustom" onClick={carregarTipo}>
+                        <option >Selecione</option>
                         <option value="Despesa Fixa">Despesa Fixa</option>
                         <option value="Despesa Variavel" >Despesa Variavel</option>
                         <option value="Imposto" >Imposto</option>
@@ -255,22 +255,22 @@ const LancamentoNew = () => {
                 <Row>
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Tipo do lancamento</Form.Label>
-                    <div class="form-group">
-                      <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setLanc(e.target.value) }} >
-                        <option no-onSelect>Selecione</option>
+                    <div className="form-group">
+                      <select className="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setLanc(e.target.value) }} >
+                        <option >Selecione</option>
                         {fluxo.map((v) => (
-                          <option value={v.id} > {v.nome}</option>
+                          <option key={v.id} value={v.id} > {v.nome}</option>
                         ))}
                       </select>
                     </div>
                   </Col>
                   <Col>
                     <Form.Label style={{ float: 'left' }}>Tipo da conta</Form.Label>
-                    <div class="form-group">
-                      <select class="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setCartaoSelecionado(e.target.value) }} >
-                        <option no-onSelect>Selecione</option>
+                    <div className="form-group">
+                      <select className="form-control pesquisa__select col-12 selectCustom" onChange={(e) => { setCartaoSelecionado(e.target.value) }} >
+                        <option >Selecione</option>
                         {conta.map((v) => (
-                          <option value={v.id} >{v.nome}</option>
+                          <option key={v.id} value={v.id} >{v.nome}</option>
                         ))}
                       </select>
                     </div>

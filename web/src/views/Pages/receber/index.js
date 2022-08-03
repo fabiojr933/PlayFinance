@@ -181,17 +181,17 @@ const DocumentoReceber = () => {
                     <h2 style={{ textAlign: "center" }}>
                         <Badge bg="secondary">Lista de lançamentos de Doc Receber {mes}-{ano} </Badge>
                     </h2>
-                    <div class="row" >
-                        <div class="col-lg-12" >
+                    <div className="row" >
+                        <div className="col-lg-12" >
                             <Card >
 
                                 <Row>
                                     <Col>
                                         <Form.Label style={{ paddingLeft: 20 }}>Mes</Form.Label>
 
-                                        <div class="form-group" style={{ paddingLeft: 20 }} >
-                                            <select class="form-control pesquisa__select col-12 selectCustom" value={mes} onChange={carregarLancMes} >
-                                                <option no-onSelect>Selecione o mes desejado</option>
+                                        <div className="form-group" style={{ paddingLeft: 20 }} >
+                                            <select className="form-control pesquisa__select col-12 selectCustom" value={mes} onChange={carregarLancMes} >
+                                                <option >Selecione o mes desejado</option>
                                                 <option value="1">Janeiro</option>
                                                 <option value="2">Fevereiro</option>
                                                 <option value="3">Março</option>
@@ -209,9 +209,9 @@ const DocumentoReceber = () => {
                                     </Col>
                                     <Col>
                                         <Form.Label style={{ float: 'left' }}>Ano</Form.Label>
-                                        <div class="form-group" style={{ paddingRight: 20 }}>
-                                            <select class="form-control pesquisa__select col-12 selectCustom" value={ano} onChange={carregarLancAno} >
-                                                <option no-onSelect>Selecione o ano desejado</option>
+                                        <div className="form-group" style={{ paddingRight: 20 }}>
+                                            <select className="form-control pesquisa__select col-12 selectCustom" value={ano} onChange={carregarLancAno} >
+                                                <option >Selecione o ano desejado</option>
                                                 <option value="2022">2022</option>
                                                 <option value="2023">2023</option>
                                                 <option value="2024">2024</option>
@@ -240,7 +240,7 @@ const DocumentoReceber = () => {
                                     </thead>
                                     <tbody >
                                         {docReceber.map((v) => (
-                                            <tr>
+                                            <tr key={v.id}>
                                                 <td style={{ width: '8%' }}>{v.id}</td>
                                                 {v.status == `Pendente` ?
                                                     <td style={{ width: '8%', color: 'red' }}  >{v.status}</td>
@@ -255,9 +255,9 @@ const DocumentoReceber = () => {
                                                 <td style={{ width: '10%' }}>{moment(v.vencimento).format('DD-MM-YYYY')}</td>
                                                 <td style={{ width: '20%' }}>{v.fluxo}</td>
                                                 <td style={{ width: '30%' }}>{v.observacao}</td>
-                                                <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                 {v.status == `Pendente` ? <td ></td > :
-                                                    <td > <Link onClick={() => { handleCancelarRecebimento(v.id) }} ><AiFillExclamationCircle /></Link> </td>
+                                                    <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleCancelarRecebimento(v.id) }} ><AiFillExclamationCircle /></a> </td>
                                                     }
 
                                             </tr>

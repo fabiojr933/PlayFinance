@@ -106,8 +106,8 @@ const Despesa = () => {
                 <h2 style={{ textAlign: "center" }}>
                     <Badge bg="secondary">Lista de despesa variavel</Badge>
                 </h2>
-                <div class="row">
-                    <div class="col-lg-12">
+                <div className="row">
+                    <div className="col-lg-12">
                         <Card>
 
                             <Table striped bordered hover size="sm">
@@ -121,11 +121,11 @@ const Despesa = () => {
                                 </thead>
                                 <tbody>
                                     {despesaVariavel.map((v, i) => (
-                                        <tr>
+                                        <tr key={v.id}>
                                             <td style={{ width: '10%' }}>{v.id}</td>
                                             <td style={{ width: '80%' }}>{v.nome}</td>
-                                            <td > <Link onClick={() => handleEditar(v.id)}><AiFillEdit /></Link> </td>
-                                            <td > <Link onClick={() => handleDel(v.id)}><AiFillDelete /></Link> </td>
+                                            <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => handleEditar(v.id)}><AiFillEdit /></a> </td>
+                                            <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => handleDel(v.id)}><AiFillDelete /></a> </td>
                                         </tr>
                                     ))}
                                 </tbody>

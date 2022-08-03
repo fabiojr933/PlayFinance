@@ -107,8 +107,8 @@ const Imposto = () => {
                     <h2 style={{ textAlign: "center" }}>
                         <Badge bg="secondary">Lista de imposto</Badge>
                     </h2>
-                    <div class="row">
-                        <div class="col-lg-12">
+                    <div className="row">
+                        <div className="col-lg-12">
                             <Card >
 
                                 <Table striped bordered hover size="sm">
@@ -122,11 +122,11 @@ const Imposto = () => {
                                     </thead>
                                     <tbody >
                                         {imposto.map((v, i) => (
-                                            <tr>
+                                            <tr key={v.id}>
                                                 <td style={{ width: '20%' }}>{v.id}</td>
                                                 <td style={{ width: '70%' }}>{v.nome}</td>
-                                                <td > <Link onClick={() => { handlEditar(v.id) }} ><AiFillEdit /></Link> </td>
-                                                <td > <Link onClick={() => { handleDel(v.id) }} ><AiFillDelete /></Link> </td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handlEditar(v.id) }} ><AiFillEdit /></a> </td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                             </tr>
                                         ))}
                                     </tbody>
