@@ -10,7 +10,9 @@ exports.up = async (knex) => {
         t.integer('id_despesa_variavel').references('id').inTable('despesa_variavel');
         t.integer('id_conta').references('id').inTable('conta');
         t.integer('id_imposto').references('id').inTable('imposto');
-        t.integer('id_transferencia').references('id').inTable('transferencia');      
+        t.integer('id_transferencia').references('id').inTable('transferencia');   
+        t.integer('id_contas_pagar');  
+        t.integer('id_contas_receber');   
         t.date('data').notNull();
     });
 };

@@ -118,11 +118,48 @@ class receberModel {
         var id_conta = null;
         var saldo = null;
 
+        var observacao = 'Baixa Doc receber';
+        var tipo = 'Entrada';
+        var id_recebimento = null;
+        var id_despesa_fixa = null;
+        var id_despesa_variavel = null;
+        var id_imposto = null;
+        var id_transferencia = null;
+        var data = null;
+        var id_contas_receber = null
+
+
         //Pegando os dados necessarios para excluir 
         await knex('contas_receber').where({ 'id': Number(id), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
             valor = resposta[0].valor;
             id_conta = Number(resposta[0].id_conta);
+            id_recebimento = resposta[0].id_recebimento;
+            id_despesa_fixa = resposta[0].id_despesa_fixa;
+            id_despesa_variavel = resposta[0].id_despesa_variavel;
+            id_imposto = resposta[0].id_imposto;
+            id_transferencia = resposta[0].id_transferencia;
+            data = moment(resposta[0].data).format('YYYY-MM-DD');
+            id_contas_receber = resposta[0].id;
         });
+
+        var data_receber = {
+            'valor': valor,
+            'id_conta': id_conta,
+            'observacao': observacao,
+            'tipo': tipo,
+            'id_usuario': id_usuario,
+            'id_recebimento': id_recebimento,
+            'id_despesa_fixa': id_despesa_fixa,
+            'id_despesa_variavel': id_despesa_variavel,
+            'id_imposto': id_imposto,
+            'id_transferencia': id_transferencia,
+            'data': data,
+            'id_contas_receber': id_contas_receber,
+        }
+
+         //fazendo lançamento
+         await knex('lancamento').insert(data_receber);
+
 
         //Pegando o saldo atual da conta
         await knex('conta').where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
@@ -158,6 +195,7 @@ class receberModel {
         let atualiza_saldo = Number(saldo) - Number(valor);
         await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
 
+        await knex('lancamento').del().where({ 'id_contas_receber': id, 'id_usuario': id_usuario });
         await knex('contas_receber').update({ 'status': 'Pendente' }).where({ 'id': id, 'id_usuario': id_usuario });
     }
 }

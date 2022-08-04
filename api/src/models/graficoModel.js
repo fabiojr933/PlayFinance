@@ -13,6 +13,9 @@ class graficoModel {
                         SUM(LANC.valor) AS VALOR
                         FROM lancamento LANC
                         JOIN despesa_fixa FIXA ON LANC.id_despesa_fixa = FIXA.id
+            WHERE EXTRACT(month from lanc.data) = ${mes}
+            and EXTRACT(year from lanc.data) = ${ano}
+            and lanc.id_usuario = ${id_usuario}
                         GROUP BY 1
 
                         UNION 
@@ -22,6 +25,9 @@ class graficoModel {
                         SUM(LANC.valor) AS VALOR
                         FROM lancamento LANC
                         JOIN despesa_variavel VAR ON LANC.id_despesa_variavel = VAR.id
+            WHERE EXTRACT(month from lanc.data) = ${mes}
+            and EXTRACT(year from lanc.data) = ${ano}
+            and lanc.id_usuario = ${id_usuario}
                         GROUP BY 1
 
                         UNION 
@@ -31,6 +37,9 @@ class graficoModel {
                         SUM(LANC.valor) AS VALOR
                         FROM lancamento LANC
                         JOIN recebimento REC ON LANC.id_recebimento = REC.id
+            WHERE EXTRACT(month from lanc.data) = ${mes}
+            and EXTRACT(year from lanc.data) = ${ano}
+            and lanc.id_usuario = ${id_usuario}
                         GROUP BY 1
 
                         UNION 
@@ -40,6 +49,9 @@ class graficoModel {
                         SUM(LANC.valor) AS VALOR
                         FROM lancamento LANC
                         JOIN imposto IMP ON LANC.id_imposto = IMP.id
+            WHERE EXTRACT(month from lanc.data) = ${mes}
+            and EXTRACT(year from lanc.data) = ${ano}
+            and lanc.id_usuario = ${id_usuario}
                         GROUP BY 1
 
                         UNION 
@@ -54,7 +66,7 @@ class graficoModel {
             and EXTRACT(year from lanc.data) = ${ano}
             and lanc.id_usuario = ${id_usuario}
             GROUP BY 1`).then(async (res) => {
-           dados = (res.rows)
+            dados = (res.rows)
         });
         return dados;
     }

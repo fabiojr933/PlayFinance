@@ -49,7 +49,7 @@ class lancamentoModel {
                 ...lancamento
             }
         });
-       
+
         return dados;
     }
     async listaId(id_usuario, id) {
@@ -89,9 +89,18 @@ class lancamentoModel {
                 LEFT join recebimento rec on lanc.id_recebimento = rec.id
                 LEFT join transferencia trans on lanc.id_transferencia = trans.id 
 
-         WHERE EXTRACT(month from data) = ${mes}
-         and EXTRACT(year from data) = ${ano}
-         and lanc.id_usuario = ${id_usuario}`).then(async (res) => {
+                WHERE EXTRACT(month from data) = ${mes}
+                and EXTRACT(year from data) = ${ano}
+                and lanc.id_usuario = ${id_usuario}
+                and NOT EXISTS
+                (SELECT * 
+                FROM lancamento lanc2
+                WHERE lanc2.id_contas_receber = lanc.id_contas_receber)
+                
+                and NOT EXISTS
+                (SELECT * 
+                FROM lancamento lanc3
+                WHERE lanc3.id_contas_pagar = lanc.id_contas_pagar)`).then(async (res) => {
             lancamento = res.rows;
         });
         return lancamento;
@@ -115,7 +124,7 @@ class lancamentoModel {
 
         //Pegando o saldo atual do cartão
         await knex('conta').where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) }).select('*').then((resposta) => {
-            console.log(resposta)          
+            console.log(resposta)
             saldo = resposta[0].saldo;
         });
 
@@ -127,7 +136,7 @@ class lancamentoModel {
 
         if (tipo == 'Entrada') {
             let atualiza_saldo = Number(saldo) - Number(valor);
-            await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });          
+            await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
         }
 
         await knex('lancamento').del().where({ 'id': id, 'id_usuario': id_usuario });

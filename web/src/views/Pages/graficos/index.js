@@ -16,32 +16,14 @@ import Form from 'react-bootstrap/Form';
 import { BallTriangle } from 'react-loader-spinner'
 import { Chart } from "react-google-charts";
 
-export const data = [
-    ["Task", "Hours per Day"],
-    ["Work", 11],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 2],
-    ["Sleep", 7],
-];
-
 export const options = {
-    title: "My Daily Activities",
+    title: "Lançamentos",
     is3D: true,
 };
 
-export const data2 = [
-    ["Year", "Sales", "Expenses", "Profit"],
-    ["2014", 1000, 400, 200],
-    ["2015", 1170, 460, 250],
-    ["2016", 660, 1120, 300],
-    ["2017", 1030, 540, 350],
-];
-
 export const options2 = {
     chart: {
-        title: "Company Performance",
-        subtitle: "Sales, Expenses, and Profit: 2014-2017",
+        title: "Lançamentos"
     },
 };
 
@@ -55,15 +37,64 @@ const DocumentoReceber = () => {
     const [mes, setMes] = useState(0);
     const [lancamento, setLancamento] = useState([]);
 
-    console.log(data);
-    console.log(lancamento)
+
 
     const carregarLancMes = async (e) => {
-
+        e.preventDefault();
+        var mes = e.target.value;
+        setMes(mes)
+        var config = {
+            method: 'GET',
+            url: api.url_api + `/grafico/lancamentos/${ano}/${mes}`,
+            headers: {
+                Authorization: "Bearer " + usuario
+            }
+        }
+        try {
+            const resposta = await axios(config);
+            if (resposta.status == 200) {
+                var data = [];
+                if (resposta.data == [] || resposta.data == undefined || resposta.data == '') {
+                    data.push(['Nenhum dados encontrados', 0.00])
+                }
+                for (var i = 0; i < resposta.data.length; i++) {
+                    data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
+                }
+                data.unshift(['Nome', 'Valor']);
+                setLancamento(data);
+            }
+        } catch (error) {
+            toast.error(error.response.data.error);
+        }
     }
 
     const carregarLancAno = async (e) => {
-
+        e.preventDefault();
+        var ano = e.target.value;
+        setAno(ano)
+        var config = {
+            method: 'GET',
+            url: api.url_api + `/grafico/lancamentos/${ano}/${mes}`,
+            headers: {
+                Authorization: "Bearer " + usuario
+            }
+        }
+        try {
+            const resposta = await axios(config);
+            if (resposta.status == 200) {
+                var data = [];
+                if (resposta.data == [] || resposta.data == undefined || resposta.data == '') {
+                    data.push(['Nenhum dados encontrados', 0.00])
+                }
+                for (var i = 0; i < resposta.data.length; i++) {
+                    data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
+                }
+                data.unshift(['Nome', 'Valor']);
+                setLancamento(data);
+            }
+        } catch (error) {
+            toast.error(error.response.data.error);
+        }
     }
 
     async function GraficoLancamento() {
@@ -85,7 +116,7 @@ const DocumentoReceber = () => {
                 for (var i = 0; i < resposta.data.length; i++) {
                     data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
                 }
-                data.unshift(["Task", "Hours per Day"])
+                data.unshift(["Nome", "Valor"])
                 setLancamento(data);
             }
         } catch (error) {
@@ -203,7 +234,7 @@ const DocumentoReceber = () => {
                                             chartType="Bar"
                                             width="100%"
                                             height="400px"
-                                            data={data2}
+                                            data={lancamento}
                                             options={options2}
                                         />
                                     </Col>
