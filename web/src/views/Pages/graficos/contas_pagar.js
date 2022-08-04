@@ -16,37 +16,25 @@ import Form from 'react-bootstrap/Form';
 import { BallTriangle } from 'react-loader-spinner'
 import { Chart } from "react-google-charts";
 
-export const options = {
-    title: "Despesas",
+export const optionsPagar = {
+    title: "Contas Receber",
     is3D: true,
 };
 
-export const options2 = {
+export const optionsPagar2 = {
     chart: {
-        title: "Despesas",
+        title: "Contas Pagar",
     },
 };
 
-export const optionsRec = {
-    title: "Recebimentos",
-    is3D: true,
-};
-
-export const optionsRec2 = {
-    chart: {
-        title: "Recebimentos",
-    },
-};
-
-const DocumentoReceber = () => {
+const ContasPagarGrafico = () => {
 
     const history = useHistory();
     const [usuario, setUsuario] = useState('');
     const [loading, setLoading] = useState(true);
     const [ano, setAno] = useState(0);
     const [mes, setMes] = useState(0);
-    const [lancamentoDespesa, setLancamentoDespesas] = useState([]);
-    const [lancamentosRecebimento, setLancamentosRecebimento] = useState([]);
+    const [lancamentoPagar, setLancamentoPagar] = useState([]);
 
 
 
@@ -54,9 +42,10 @@ const DocumentoReceber = () => {
         e.preventDefault();
         var mes = e.target.value;
         setMes(mes)
+
         var config = {
             method: 'GET',
-            url: api.url_api + `/grafico/lancamentosDespesa/${ano}/${mes}`,
+            url: api.url_api + `/grafico/contasPagar/${ano}/${mes}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -72,32 +61,7 @@ const DocumentoReceber = () => {
                     data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
                 }
                 data.unshift(['Nome', 'Valor']);
-                setLancamentoDespesas(data);
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
-
-
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/grafico/lancamentosRecebimento/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + usuario
-            }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                var data = [];
-                if (resposta.data == [] || resposta.data == undefined || resposta.data == '') {
-                    data.push(['Nenhum dados encontrados', 0.00])
-                }
-                for (var i = 0; i < resposta.data.length; i++) {
-                    data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
-                }
-                data.unshift(['Nome', 'Valor']);
-                setLancamentosRecebimento(data);
+                setLancamentoPagar(data);
             }
         } catch (error) {
             toast.error(error.response.data.error);
@@ -111,7 +75,7 @@ const DocumentoReceber = () => {
         setAno(ano)
         var config = {
             method: 'GET',
-            url: api.url_api + `/grafico/lancamentosDespesa/${ano}/${mes}`,
+            url: api.url_api + `/grafico/contasPagar/${ano}/${mes}`,
             headers: {
                 Authorization: "Bearer " + usuario
             }
@@ -127,31 +91,7 @@ const DocumentoReceber = () => {
                     data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
                 }
                 data.unshift(['Nome', 'Valor']);
-                setLancamentoDespesas(data);
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
-
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/grafico/lancamentosRecebimento/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + usuario
-            }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                var data = [];
-                if (resposta.data == [] || resposta.data == undefined || resposta.data == '') {
-                    data.push(['Nenhum dados encontrados', 0.00])
-                }
-                for (var i = 0; i < resposta.data.length; i++) {
-                    data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
-                }
-                data.unshift(['Nome', 'Valor']);
-                setLancamentosRecebimento(data);
+                setLancamentoPagar(data);
             }
         } catch (error) {
             toast.error(error.response.data.error);
@@ -163,33 +103,9 @@ const DocumentoReceber = () => {
         var mes = moment().format('MM');
         const usuario = localStorage.getItem('@usuario');
         setUsuario(JSON.parse(usuario).token);
-        const config = {
-            method: 'GET',
-            url: api.url_api + `/grafico/lancamentosDespesa/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
-            },
-        }
-        try {
-            const resposta = await axios(config);
-            console.log(resposta.data)
-            if (resposta.status == 200) {
-                var data = [];
-                for (var i = 0; i < resposta.data.length; i++) {
-                    data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
-                }
-                data.unshift(["Nome", "Valor"])
-                setLancamentoDespesas(data);
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error(error.response.data.error);
-        }
-
-
         const config2 = {
             method: 'GET',
-            url: api.url_api + `/grafico/lancamentosRecebimento/${ano}/${mes}`,
+            url: api.url_api + `/grafico/contasPagar/${ano}/${mes}`,
             headers: {
                 Authorization: "Bearer " + JSON.parse(usuario).token
             },
@@ -202,15 +118,12 @@ const DocumentoReceber = () => {
                     data2.push([`${resposta2.data[i].nome}`, Number(resposta2.data[i].valor)]);
                 }
                 data2.unshift(["Nome", "Valor"])
-                setLancamentosRecebimento(data2);
+                setLancamentoPagar(data2);
             }
         } catch (error) {
             toast.error(error.response.data.error);
         }
     }
-
-
-
 
     const Datas = async () => {
         var ano = moment().format('YYYY');
@@ -308,8 +221,8 @@ const DocumentoReceber = () => {
                                     <Col>
                                         <Chart
                                             chartType="PieChart"
-                                            data={lancamentoDespesa}
-                                            options={options}
+                                            data={lancamentoPagar}
+                                            options={optionsPagar}
                                             width={"100%"}
                                             height={"400px"}
                                         />
@@ -319,29 +232,8 @@ const DocumentoReceber = () => {
                                             chartType="Bar"
                                             width="100%"
                                             height="400px"
-                                            data={lancamentoDespesa}
-                                            options={options2}
-                                        />
-                                    </Col>
-                                </Row><br />
-
-                                <Row style={{ padding: 20 }}>
-                                    <Col>
-                                        <Chart
-                                            chartType="PieChart"
-                                            data={lancamentosRecebimento}
-                                            options={optionsRec}
-                                            width={"100%"}
-                                            height={"400px"}
-                                        />
-                                    </Col>
-                                    <Col>
-                                        <Chart
-                                            chartType="Bar"
-                                            width="100%"
-                                            height="400px"
-                                            data={lancamentosRecebimento}
-                                            options={optionsRec2}
+                                            data={lancamentoPagar}
+                                            options={optionsPagar2}
                                         />
                                     </Col>
                                 </Row><br />
@@ -355,4 +247,4 @@ const DocumentoReceber = () => {
     }
 }
 
-export default DocumentoReceber;
+export default ContasPagarGrafico;

@@ -84,6 +84,9 @@ route.put('/contasReceber/baixa/:id', middlewares.Autorizacao, contaReceber.baix
 route.put('/contasReceber/cancelarRecebimento/:id', middlewares.Autorizacao, contaReceber.cancelarRecebimento);
 route.delete('/contasReceber/:id', middlewares.Autorizacao, contaReceber.excluir);
 
-route.get('/grafico/lancamentos/:ano/:mes', middlewares.Autorizacao, grafico.graficoLancamentos);
+route.get('/grafico/lancamentosDespesa/:ano/:mes', middlewares.Autorizacao, grafico.graficoLancamentosDespesas);
+route.get('/grafico/lancamentosRecebimento/:ano/:mes', middlewares.Autorizacao, grafico.graficoLancamentosRecebimento);
+route.get('/grafico/contasReceber/:ano/:mes', middlewares.Autorizacao, grafico.graficoLancContasReceber);
+route.get('/grafico/contasPagar/:ano/:mes', middlewares.Autorizacao, grafico.graficoLancContasPagar);
 
 module.exports = route;

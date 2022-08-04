@@ -28,7 +28,7 @@ class DespesaFixaController {
         try {
             const id_usuario = req.id_usuario;
             const despesa_fixa = {
-                'nome': req.body.nome.trim(),
+                'nome': req.body.nome,
                 'status': 'Ativo',
                 'id_usuario': id_usuario
             };

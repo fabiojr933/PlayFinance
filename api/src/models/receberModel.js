@@ -157,8 +157,8 @@ class receberModel {
             'id_contas_receber': id_contas_receber,
         }
 
-         //fazendo lançamento
-         await knex('lancamento').insert(data_receber);
+        //fazendo lançamento
+        await knex('lancamento').insert(data_receber);
 
 
         //Pegando o saldo atual da conta
@@ -169,7 +169,7 @@ class receberModel {
         //  if (Number(saldo) < Number(valor)) throw new Validacao('Saldo insuficiente para pagar esse documento');
         let atualiza_saldo = Number(saldo) + Number(valor);
         await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
-        await knex('contas_receber').update({ 'status': 'Recebido' }).where({ 'id': id, 'id_usuario': id_usuario });
+        await knex('contas_receber').update({ 'status': 'Recebido', 'data_pagamento': moment().format('YYYY-MM-DD') }).where({ 'id': id, 'id_usuario': id_usuario });
     }
 
     async cancelarRecebimento(id, id_usuario) {
@@ -196,7 +196,7 @@ class receberModel {
         await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
 
         await knex('lancamento').del().where({ 'id_contas_receber': id, 'id_usuario': id_usuario });
-        await knex('contas_receber').update({ 'status': 'Pendente' }).where({ 'id': id, 'id_usuario': id_usuario });
+        await knex('contas_receber').update({ 'status': 'Pendente', 'data_pagamento': null }).where({ 'id': id, 'id_usuario': id_usuario });
     }
 }
 

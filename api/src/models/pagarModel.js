@@ -154,7 +154,7 @@ class pagarModel {
             'id_imposto': id_imposto,
             'id_transferencia': id_transferencia,
             'data': data,
-            'id_contas_pagar': id_contas_pagar,
+            'id_contas_pagar': id_contas_pagar
         }
 
 
@@ -169,7 +169,7 @@ class pagarModel {
         if (Number(saldo) < Number(valor)) throw new Validacao('Saldo insuficiente para pagar esse documento');
         let atualiza_saldo = Number(saldo) - Number(valor);
         await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
-        await knex('contas_pagar').update({ 'status': 'Pago' }).where({ 'id': id, 'id_usuario': id_usuario });
+        await knex('contas_pagar').update({ 'status': 'Pago', 'data_pagamento': moment().format('YYYY-MM-DD') }).where({ 'id': id, 'id_usuario': id_usuario });
     }
     async cancelarBaixa(id, id_usuario) {
         if (!id) throw new Validacao('Escolha um documento para baixar');
@@ -195,7 +195,7 @@ class pagarModel {
         await knex('conta').update({ 'saldo': atualiza_saldo }).where({ 'id': Number(id_conta), 'id_usuario': Number(id_usuario) });
 
         await knex('lancamento').del().where({ 'id_contas_pagar': id, 'id_usuario': id_usuario });
-        await knex('contas_pagar').update({ 'status': 'Pendente' }).where({ 'id': id, 'id_usuario': id_usuario });
+        await knex('contas_pagar').update({ 'status': 'Pendente', 'data_pagamento': null }).where({ 'id': id, 'id_usuario': id_usuario });
     }
 }
 

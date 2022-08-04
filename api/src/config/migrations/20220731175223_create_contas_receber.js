@@ -18,6 +18,7 @@ exports.up = async (knex) => {
         t.integer('id_conta').references('id').inTable('conta');
         t.integer('id_imposto').references('id').inTable('imposto');
         t.integer('id_transferencia').references('id').inTable('transferencia');
+        t.date('data_pagamento');
     });
 };
 

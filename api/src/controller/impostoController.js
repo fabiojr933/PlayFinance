@@ -28,7 +28,7 @@ class ImpostoController {
         try {
             const id_usuario = req.id_usuario;
             const imposto = {
-                'nome': req.body.nome.trim(),
+                'nome': req.body.nome,
                 'status': 'Ativo',
                 'id_usuario': id_usuario
             };

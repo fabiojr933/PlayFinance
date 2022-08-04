@@ -47,6 +47,8 @@ import ReceberNew from "./views/Pages/receber/new";
 import ReceberBaixa from './views/Pages/receber/receber';
 import ReceberIndex from './views/Pages/receber/index';
 
+import GraficoContasPagar from './views/Pages/graficos/contas_pagar'
+import GraficoContasReceber from './views/Pages/graficos/contas_receber'
 import GraficoIndex from './views/Pages/graficos/index';
 
 var routes = [
@@ -211,9 +213,18 @@ var routes = [
     layout: BaseLayout,
     component: ReceberIndex,
   },
-
   {
-    path: "/dashboard/financeiro/grafico",
+    path: "/dashboard/financeiro/grafico/contas-pagar",
+    layout: BaseLayout,
+    component: GraficoContasPagar,
+  },
+  {
+    path: "/dashboard/financeiro/grafico/contas-receber",
+    layout: BaseLayout,
+    component: GraficoContasReceber,
+  },
+  {
+    path: "/dashboard/financeiro/grafico/lancamentos",
     layout: BaseLayout,
     component: GraficoIndex,
   }

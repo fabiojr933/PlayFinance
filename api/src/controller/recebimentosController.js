@@ -28,7 +28,7 @@ class recebimentoController {
         try {
             const id_usuario = req.id_usuario;
             const recebimento = {
-                'nome': req.body.nome.trim(),
+                'nome': req.body.nome,
                 'status': 'Ativo',
                 'id_usuario': id_usuario
             };

@@ -28,7 +28,7 @@ class DespesaVariavelController {
         try {
             const id_usuario = req.id_usuario;
             const despesa_variavel = {
-                'nome': req.body.nome.trim(),
+                'nome': req.body.nome,
                 'status': 'Ativo',
                 'id_usuario': id_usuario
             };

@@ -326,16 +326,46 @@ function Sidebar(props) {
 
               <li
                 className={
-                  active === "/dashboard/financeiro/grafico"
+                  active === "/dashboard/financeiro/grafico/lancamentos"
                     ? "active"
                     : null
                 }
               >
-                <Link to="/dashboard/financeiro/grafico">
+                <Link to="/dashboard/financeiro/grafico/lancamentos">
                   <div className="menu-icon">
                     <i className="fa fa-puzzle-piece"></i>
                   </div>
-                  <span className="menu-title">Graficos</span>
+                  <span className="menu-title">Lançamentos</span>
+                </Link>
+              </li>
+
+              <li
+                className={
+                  active === "/dashboard/financeiro/grafico/contas-pagar"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/grafico/contas-pagar">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Contas pagar</span>
+                </Link>
+              </li>
+
+              <li
+                className={
+                  active === "/dashboard/financeiro/grafico/contas-receber"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to="/dashboard/financeiro/grafico/contas-receber">
+                  <div className="menu-icon">
+                    <i className="fa fa-puzzle-piece"></i>
+                  </div>
+                  <span className="menu-title">Contas receber</span>
                 </Link>
               </li>
 
