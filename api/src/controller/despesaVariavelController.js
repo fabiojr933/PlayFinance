@@ -1,4 +1,4 @@
-const DespesaVariavel = require('../models/DespesaVariavelModel');
+const DespesaVariavel = require('../models/despesaVariavelModel');
 
 class DespesaVariavelController {
     async listaAll(req, res) {

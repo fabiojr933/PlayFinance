@@ -1,4 +1,4 @@
-const Conta = require('../models/ContaModel');
+const Conta = require('../models/contaModel');
 
 class ContaController {
     async listaAll(req, res) {

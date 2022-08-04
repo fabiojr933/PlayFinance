@@ -1,4 +1,4 @@
-const Recebimento = require('../models/RecebimentoModel');
+const Recebimento = require('../models/recebimentoModel');
 
 class recebimentoController {
     async listaAll(req, res) {
