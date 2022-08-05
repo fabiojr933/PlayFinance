@@ -23,6 +23,7 @@ const LancamentoNew = () => {
   const [valor, setValor] = useState('');
   const [usuario, setUsuario] = useState('');
 
+
   async function handleSalvar(e) {
     e.preventDefault();
     var data = {};
@@ -101,21 +102,25 @@ const LancamentoNew = () => {
   useEffect(() => {
     async function load() {
       const usuario = localStorage.getItem('@usuario');
-      setUsuario(JSON.parse(usuario).token);
-      var config = {
-        method: 'GET',
-        url: api.url_api + '/conta',
-        headers: {
-          Authorization: "Bearer " + JSON.parse(usuario).token
+      if (!usuario) {
+        history.push('/login');
+      } else {
+        setUsuario(JSON.parse(usuario).token);
+        var config = {
+          method: 'GET',
+          url: api.url_api + '/conta',
+          headers: {
+            Authorization: "Bearer " + JSON.parse(usuario).token
+          }
         }
-      }
-      try {
-        const resposta = await axios(config);
-        if (resposta.status == 200) {
-          setConta(resposta.data);
+        try {
+          const resposta = await axios(config);
+          if (resposta.status == 200) {
+            setConta(resposta.data);
+          }
+        } catch (error) {
+          toast.error(error.response.data.error);
         }
-      } catch (error) {
-        toast.error(error.response.data.error);
       }
     }
     load();
@@ -275,7 +280,7 @@ const LancamentoNew = () => {
                       </select>
                     </div>
                   </Col>
-                </Row>               
+                </Row>
                 <Button style={{ float: 'left' }} variant="primary" type="submit">
                   Fazer Lançamento
                 </Button><br />

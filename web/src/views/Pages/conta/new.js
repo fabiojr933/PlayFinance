@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -16,6 +16,13 @@ const ContaNew = () => {
   
   const [saldo, setSaldo] = useState('');
   const [conta, setConta] = useState('');
+
+  useEffect(() => {
+    let usuario = localStorage.getItem('@usuario');
+    if (!usuario) {
+        history.push('/login');
+    }
+}, [])
 
   async function heandleSalvar(e) {
     e.preventDefault();

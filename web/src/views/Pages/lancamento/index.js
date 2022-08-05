@@ -24,6 +24,7 @@ const Lancamento = () => {
     const [mes, setMes] = useState(0);
     const [loading, setLoading] = useState(true);
 
+ 
     const handleDel = async (id) => {
         if (!id) return toast.error('É obrigado informar o Id');
         var config = {
@@ -92,21 +93,25 @@ const Lancamento = () => {
         var mes = moment().format('MM');
 
         var usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token)
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token)
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setLancamentos(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setLancamentos(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 

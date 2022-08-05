@@ -49,7 +49,6 @@ const DocumentoReceber = () => {
     const [lancamentosRecebimento, setLancamentosRecebimento] = useState([]);
 
 
-
     const carregarLancMes = async (e) => {
         e.preventDefault();
         var mes = e.target.value;
@@ -162,50 +161,54 @@ const DocumentoReceber = () => {
         var ano = moment().format('YYYY');
         var mes = moment().format('MM');
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        const config = {
-            method: 'GET',
-            url: api.url_api + `/grafico/lancamentosDespesa/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
-            },
-        }
-        try {
-            const resposta = await axios(config);
-            console.log(resposta.data)
-            if (resposta.status == 200) {
-                var data = [];
-                for (var i = 0; i < resposta.data.length; i++) {
-                    data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
-                }
-                data.unshift(["Nome", "Valor"])
-                setLancamentoDespesas(data);
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            const config = {
+                method: 'GET',
+                url: api.url_api + `/grafico/lancamentosDespesa/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                },
             }
-        } catch (error) {
-            console.error(error);
-            toast.error(error.response.data.error);
-        }
+            try {
+                const resposta = await axios(config);
+                console.log(resposta.data)
+                if (resposta.status == 200) {
+                    var data = [];
+                    for (var i = 0; i < resposta.data.length; i++) {
+                        data.push([`${resposta.data[i].nome}`, Number(resposta.data[i].valor)]);
+                    }
+                    data.unshift(["Nome", "Valor"])
+                    setLancamentoDespesas(data);
+                }
+            } catch (error) {
+                console.error(error);
+                toast.error(error.response.data.error);
+            }
 
 
-        const config2 = {
-            method: 'GET',
-            url: api.url_api + `/grafico/lancamentosRecebimento/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
-            },
-        }
-        try {
-            const resposta2 = await axios(config2);
-            if (resposta2.status == 200) {
-                var data2 = [];
-                for (var i = 0; i < resposta2.data.length; i++) {
-                    data2.push([`${resposta2.data[i].nome}`, Number(resposta2.data[i].valor)]);
-                }
-                data2.unshift(["Nome", "Valor"])
-                setLancamentosRecebimento(data2);
+            const config2 = {
+                method: 'GET',
+                url: api.url_api + `/grafico/lancamentosRecebimento/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                },
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
+            try {
+                const resposta2 = await axios(config2);
+                if (resposta2.status == 200) {
+                    var data2 = [];
+                    for (var i = 0; i < resposta2.data.length; i++) {
+                        data2.push([`${resposta2.data[i].nome}`, Number(resposta2.data[i].valor)]);
+                    }
+                    data2.unshift(["Nome", "Valor"])
+                    setLancamentosRecebimento(data2);
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
+            }
         }
     }
 

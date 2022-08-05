@@ -24,6 +24,7 @@ const DocumentoReceber = () => {
     const [ano, setAno] = useState(0);
     const [mes, setMes] = useState(0);
 
+
     const handleDel = async (id) => {
         if (!id) return toast.error('É obrigado informar o Id');
         var config = {
@@ -111,23 +112,27 @@ const DocumentoReceber = () => {
 
     const carregarDocumentoReceber = async () => {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var ano = moment().format('YYYY');
-        var mes = moment().format('MM');
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/contasReceber/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var ano = moment().format('YYYY');
+            var mes = moment().format('MM');
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/contasReceber/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setDocReceber(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setDocReceber(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
@@ -258,7 +263,7 @@ const DocumentoReceber = () => {
                                                 <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                                 {v.status == `Pendente` ? <td ></td > :
                                                     <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleCancelarRecebimento(v.id) }} ><AiFillExclamationCircle /></a> </td>
-                                                    }
+                                                }
 
                                             </tr>
                                         ))}

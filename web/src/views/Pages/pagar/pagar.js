@@ -22,7 +22,9 @@ const DocumentoPagar = () => {
     const [docPagar, setDocPagar] = useState([]);
     const [loading, setLoading] = useState(true);
     const [ano, setAno] = useState(0);
-    const [mes, setMes] = useState(0);   
+    const [mes, setMes] = useState(0);
+
+  
 
     const handlePagar = async (id) => {
         if (!id) return toast.error('É obrigado informar o Id');
@@ -43,7 +45,7 @@ const DocumentoPagar = () => {
         } catch (error) {
             toast.error(error.response.data.error);
         }
-    };    
+    };
 
     const carregarLancMes = async (e) => {
         const mesSelecionado = e.target.value;
@@ -89,23 +91,27 @@ const DocumentoPagar = () => {
 
     const carregarDocumentoPagar = async () => {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var ano = moment().format('YYYY');
-        var mes = moment().format('MM');
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/contasPagar/pendente/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var ano = moment().format('YYYY');
+            var mes = moment().format('MM');
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/contasPagar/pendente/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setDocPagar(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setDocPagar(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
@@ -157,16 +163,16 @@ const DocumentoPagar = () => {
                         Novo Documento a pagar
                     </Button><br />
                     <h2 style={{ textAlign: "center" }}>
-                       <Badge bg="secondary">Lista de lançamentos de Doc Pagar {mes}-{ano} </Badge>
+                        <Badge bg="secondary">Lista de lançamentos de Doc Pagar {mes}-{ano} </Badge>
                     </h2>
                     <div className="row" >
                         <div className="col-lg-12" >
                             <Card >
-                             
+
                                 <Row>
                                     <Col>
                                         <Form.Label style={{ paddingLeft: 20 }}>Mes</Form.Label>
-                                     
+
                                         <div className="form-group" style={{ paddingLeft: 20 }} >
                                             <select className="form-control pesquisa__select col-12 selectCustom" value={mes} onChange={carregarLancMes} >
                                                 <option >Selecione o mes desejado</option>
@@ -198,7 +204,7 @@ const DocumentoPagar = () => {
                                             </select>
                                         </div>
                                     </Col>
-                                </Row><br />                            
+                                </Row><br />
 
 
 
@@ -210,8 +216,8 @@ const DocumentoPagar = () => {
                                             <th style={{ width: '10%' }}>Valor</th>
                                             <th style={{ width: '10%' }}>Data Laçamento</th>
                                             <th style={{ width: '10%' }}>Data Vencimento</th>
-                                            <th style={{ width: '20%' }}>Fluxo</th>       
-                                            <th style={{ width: '30%' }}>Observação</th>                                        
+                                            <th style={{ width: '20%' }}>Fluxo</th>
+                                            <th style={{ width: '30%' }}>Observação</th>
                                             <th >Pagar</th>
                                         </tr>
                                     </thead>
@@ -230,8 +236,8 @@ const DocumentoPagar = () => {
 
                                                 <td style={{ width: '10%' }}>{moment(v.data_lancamento).format('DD-MM-YYYY')}</td>
                                                 <td style={{ width: '10%' }}>{moment(v.vencimento).format('DD-MM-YYYY')}</td>
-                                                <td style={{ width: '20%' }}>{v.fluxo}</td>     
-                                                <td style={{ width: '30%' }}>{v.observacao}</td>                                               
+                                                <td style={{ width: '20%' }}>{v.fluxo}</td>
+                                                <td style={{ width: '30%' }}>{v.observacao}</td>
                                                 <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handlePagar(v.id) }} ><AiFillDollarCircle /></a> </td>
                                             </tr>
                                         ))}

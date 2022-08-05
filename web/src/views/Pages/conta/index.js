@@ -16,7 +16,7 @@ const Conta = () => {
     const [conta, setConta] = useState([]);
     const [usuario, setUsuario] = useState('');
 
-    const handleDel = async (id) => {
+      const handleDel = async (id) => {
         if (!id) {
             return toast.error('Selecione um conta bancaria para deletar');
         }
@@ -45,22 +45,27 @@ const Conta = () => {
 
     const Carregamento = async () => {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var config = {
-            method: 'GET',
-            url: api.url_api + '/conta',
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var config = {
+                method: 'GET',
+                url: api.url_api + '/conta',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
+            }
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setConta(resposta.data);
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
         }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setConta(resposta.data);
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
+
     }
 
     useEffect(() => {

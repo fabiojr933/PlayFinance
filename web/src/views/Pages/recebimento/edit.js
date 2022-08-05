@@ -14,25 +14,31 @@ const ReceitaEdit = () => {
   const [nome, setNome] = useState('');
   const [usuario, setUsuario] = useState('');
 
+
   useEffect(() => {
     async function load() {
       const usuario = localStorage.getItem('@usuario');
-      setUsuario(JSON.parse(usuario).token);
-      const config = {
-        method: 'GET',
-        url: api.url_api + `/recebimento/${id}`,
-        headers: {
-          Authorization: "Bearer " + JSON.parse(usuario).token
-        },
-      }
-      try {
-        const resposta = await axios(config);
-        if (resposta.status == 200) {
-          setNome(resposta.data[0].nome);
+      if (!usuario) {
+        history.push('/login');
+      } else {
+        setUsuario(JSON.parse(usuario).token);
+        const config = {
+          method: 'GET',
+          url: api.url_api + `/recebimento/${id}`,
+          headers: {
+            Authorization: "Bearer " + JSON.parse(usuario).token
+          },
         }
-      } catch (error) {
-        toast.error(error.response.data.error);
+        try {
+          const resposta = await axios(config);
+          if (resposta.status == 200) {
+            setNome(resposta.data[0].nome);
+          }
+        } catch (error) {
+          toast.error(error.response.data.error);
+        }
       }
+
     }
     load();
   }, [])

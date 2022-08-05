@@ -18,6 +18,7 @@ const Transferencia = () => {
     const [usuario, setUsuario] = useState('');
     const [loading, setLoading] = useState(true);
 
+
     const handleDel = async (id) => {
         if (!id) {
             return toast.error('Selecione uma transferencia para deletar');
@@ -47,21 +48,25 @@ const Transferencia = () => {
 
     const Carregamento = async () => {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var config = {
-            method: 'GET',
-            url: api.url_api + '/transferencia',
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var config = {
+                method: 'GET',
+                url: api.url_api + '/transferencia',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setTransferencia(resposta.data);
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setTransferencia(resposta.data);
+                }
+            } catch (error) {
+                toast.error(error.response.data.errror);
             }
-        } catch (error) {
-            toast.error(error.response.data.errror);
         }
     }
 

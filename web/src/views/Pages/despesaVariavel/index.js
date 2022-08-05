@@ -18,6 +18,7 @@ const Despesa = () => {
     const [usuarioToken, setUsuario] = useState('');
     const [loading, setLoading] = useState(true);
 
+
     const handleDel = async (id) => {
         if (!id) {
             toast.error('Seleciona a despesas para deletar');
@@ -46,22 +47,27 @@ const Despesa = () => {
     }
     async function carregarPagina() {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var config = {
-            method: 'GET',
-            url: api.url_api + '/despesaVariavel',
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var config = {
+                method: 'GET',
+                url: api.url_api + '/despesaVariavel',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
+            }
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setDespesaVariavel(resposta.data);
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
         }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setDespesaVariavel(resposta.data);
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
+
     }
 
     useEffect(() => {
@@ -70,7 +76,7 @@ const Despesa = () => {
             setLoading(false);
         }, 2000);
     }, []);
-    
+
     if (loading == true) {
         return (
             <>
@@ -97,46 +103,46 @@ const Despesa = () => {
         )
     }
     else {
-    return (
-        <div className="main-content-container p-4 container-fluid">
-            <div >
-                <Button onClick={() => { history.push('/dashboard/despesa-variavel/novo') }} type="button" className="button button-primary">
-                    Nova Despesa variavel
-                </Button><br />
-                <h2 style={{ textAlign: "center" }}>
-                    <Badge bg="secondary">Lista de despesa variavel</Badge>
-                </h2>
-                <div className="row">
-                    <div className="col-lg-12">
-                        <Card>
+        return (
+            <div className="main-content-container p-4 container-fluid">
+                <div >
+                    <Button onClick={() => { history.push('/dashboard/despesa-variavel/novo') }} type="button" className="button button-primary">
+                        Nova Despesa variavel
+                    </Button><br />
+                    <h2 style={{ textAlign: "center" }}>
+                        <Badge bg="secondary">Lista de despesa variavel</Badge>
+                    </h2>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <Card>
 
-                            <Table striped bordered hover size="sm">
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: '10%' }} >Id</th>
-                                        <th style={{ width: '80%' }}>Nome da despesa</th>
-                                        <th >Editar</th>
-                                        <th >Excluir</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {despesaVariavel.map((v, i) => (
-                                        <tr key={v.id}>
-                                            <td style={{ width: '10%' }}>{v.id}</td>
-                                            <td style={{ width: '80%' }}>{v.nome}</td>
-                                            <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => handleEditar(v.id)}><AiFillEdit /></a> </td>
-                                            <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => handleDel(v.id)}><AiFillDelete /></a> </td>
+                                <Table striped bordered hover size="sm">
+                                    <thead>
+                                        <tr>
+                                            <th style={{ width: '10%' }} >Id</th>
+                                            <th style={{ width: '80%' }}>Nome da despesa</th>
+                                            <th >Editar</th>
+                                            <th >Excluir</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </Card>
+                                    </thead>
+                                    <tbody>
+                                        {despesaVariavel.map((v, i) => (
+                                            <tr key={v.id}>
+                                                <td style={{ width: '10%' }}>{v.id}</td>
+                                                <td style={{ width: '80%' }}>{v.nome}</td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => handleEditar(v.id)}><AiFillEdit /></a> </td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => handleDel(v.id)}><AiFillDelete /></a> </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </Card>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
-                                    }
+        );
+    }
 }
 
 export default Despesa;

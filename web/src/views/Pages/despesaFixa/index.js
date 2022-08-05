@@ -46,22 +46,27 @@ const DespesaFixa = () => {
     }
     async function carregarPagina() {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var config = {
-            method: 'GET',
-            url: api.url_api + '/despesaFixa',
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var config = {
+                method: 'GET',
+                url: api.url_api + '/despesaFixa',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
+            }
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setDespesaFixa(resposta.data);
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
         }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setDespesaFixa(resposta.data);
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
+
     }
 
     useEffect(() => {

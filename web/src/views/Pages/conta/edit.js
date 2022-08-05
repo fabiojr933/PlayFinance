@@ -13,32 +13,37 @@ import { toast } from 'react-toastify';
 const ContaEdit = () => {
   const history = useHistory();
   const { id } = useParams();
-  const [nome, setNome] = useState('');  
+  const [nome, setNome] = useState('');
   const [saldo, setSaldo] = useState('');
   const [conta, setConta] = useState('');
   const [usuario, setUsuario] = useState('');
 
+ 
   useEffect(() => {
     async function load() {
       const usuario = localStorage.getItem('@usuario');
-      setUsuario(JSON.parse(usuario).token);
-      const config = {
-        method: 'GET',
-        url: api.url_api + `/conta/${id}`,
-        headers: {
-          Authorization: "Bearer " + JSON.parse(usuario).token
-        },
-      }
-      try {
-        const resposta = await axios(config);
-        if (resposta.status == 200) {
-          console.log(resposta.data)
-          setNome(resposta.data[0].nome);
-          setConta(resposta.data[0].conta);
-          setSaldo(resposta.data[0].saldo);         
+      if (!usuario) {
+        history.push('/login');
+      } else {
+        setUsuario(JSON.parse(usuario).token);
+        const config = {
+          method: 'GET',
+          url: api.url_api + `/conta/${id}`,
+          headers: {
+            Authorization: "Bearer " + JSON.parse(usuario).token
+          },
         }
-      } catch (error) {
-        toast.error(error.response.data.error);
+        try {
+          const resposta = await axios(config);
+          if (resposta.status == 200) {
+            console.log(resposta.data)
+            setNome(resposta.data[0].nome);
+            setConta(resposta.data[0].conta);
+            setSaldo(resposta.data[0].saldo);
+          }
+        } catch (error) {
+          toast.error(error.response.data.error);
+        }
       }
     }
     load();
@@ -97,7 +102,7 @@ const ContaEdit = () => {
                   <Form.Label style={{ float: 'left' }}>Saldo</Form.Label>
                   <Form.Control type="number" step="0.010" placeholder="Digite o saldo da conta" value={saldo} onChange={(e) => { setSaldo(e.target.value) }} />
                 </Col>
-              </Row><br />             
+              </Row><br />
               <Button style={{ float: 'left' }} variant="primary" type="submit">
                 Cadastrar
               </Button>

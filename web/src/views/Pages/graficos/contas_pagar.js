@@ -37,7 +37,6 @@ const ContasPagarGrafico = () => {
     const [lancamentoPagar, setLancamentoPagar] = useState([]);
 
 
-
     const carregarLancMes = async (e) => {
         e.preventDefault();
         var mes = e.target.value;
@@ -102,26 +101,30 @@ const ContasPagarGrafico = () => {
         var ano = moment().format('YYYY');
         var mes = moment().format('MM');
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        const config2 = {
-            method: 'GET',
-            url: api.url_api + `/grafico/contasPagar/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
-            },
-        }
-        try {
-            const resposta2 = await axios(config2);
-            if (resposta2.status == 200) {
-                var data2 = [];
-                for (var i = 0; i < resposta2.data.length; i++) {
-                    data2.push([`${resposta2.data[i].nome}`, Number(resposta2.data[i].valor)]);
-                }
-                data2.unshift(["Nome", "Valor"])
-                setLancamentoPagar(data2);
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            const config2 = {
+                method: 'GET',
+                url: api.url_api + `/grafico/contasPagar/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                },
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
+            try {
+                const resposta2 = await axios(config2);
+                if (resposta2.status == 200) {
+                    var data2 = [];
+                    for (var i = 0; i < resposta2.data.length; i++) {
+                        data2.push([`${resposta2.data[i].nome}`, Number(resposta2.data[i].valor)]);
+                    }
+                    data2.unshift(["Nome", "Valor"])
+                    setLancamentoPagar(data2);
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
+            }
         }
     }
 

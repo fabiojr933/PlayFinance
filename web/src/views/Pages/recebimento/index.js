@@ -47,21 +47,25 @@ const Receita = () => {
 
     const Carregamento = async () => {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var config = {
-            method: 'GET',
-            url: api.url_api + '/recebimento',
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var config = {
+                method: 'GET',
+                url: api.url_api + '/recebimento',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setRecebimento(resposta.data);
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setRecebimento(resposta.data);
+                }
+            } catch (error) {
+                toast.error(error.response.data.errror);
             }
-        } catch (error) {
-            toast.error(error.response.data.errror);
         }
     }
 
@@ -125,8 +129,8 @@ const Receita = () => {
                                             <tr key={v.id} >
                                                 <td style={{ width: '20%' }}>{v.id}</td>
                                                 <td style={{ width: '70%' }}>{v.nome}</td>
-                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }}  onClick={() => { handlEditar(v.id) }} ><AiFillEdit /></a> </td>
-                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }}  onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handlEditar(v.id) }} ><AiFillEdit /></a> </td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleDel(v.id) }} ><AiFillDelete /></a> </td>
                                             </tr>
                                         ))}
                                     </tbody>

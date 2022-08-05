@@ -89,24 +89,29 @@ const DocumentoReceberBaixa = () => {
 
     const carregarDocumentoReceber = async () => {
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        var ano = moment().format('YYYY');
-        var mes = moment().format('MM');
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/contasReceber/pendente/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            var ano = moment().format('YYYY');
+            var mes = moment().format('MM');
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/contasReceber/pendente/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
+            }
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setDocReceber(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
         }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setDocReceber(resposta.data)
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
+
     }
 
     const Datas = async () => {
@@ -232,7 +237,7 @@ const DocumentoReceberBaixa = () => {
                                                 <td style={{ width: '10%' }}>{moment(v.vencimento).format('DD-MM-YYYY')}</td>
                                                 <td style={{ width: '20%' }}>{v.fluxo}</td>
                                                 <td style={{ width: '30%' }}>{v.observacao}</td>
-                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }}  onClick={() => { handleReceber(v.id) }} ><AiFillDollarCircle /></a> </td>
+                                                <td > <a style={{ cursor: "pointer", color: '#017BFE' }} onClick={() => { handleReceber(v.id) }} ><AiFillDollarCircle /></a> </td>
                                             </tr>
                                         ))}
                                     </tbody>

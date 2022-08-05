@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,6 +11,13 @@ import { toast } from 'react-toastify';
 const TransferenciaNew = () => {
   const history = useHistory();
   const [nome, setNome] = useState('');
+
+  useEffect(() => {
+    let usuario = localStorage.getItem('@usuario');
+    if (!usuario) {
+      history.push('/login');
+    }
+  }, [])
 
   async function handleSalvar(e) {
     e.preventDefault();

@@ -37,7 +37,6 @@ const ContasReceberGrafico = () => {
     const [lancamentoReceber, setLancamentoReceber] = useState([]);
 
 
-
     const carregarLancMes = async (e) => {
         e.preventDefault();
         var mes = e.target.value;
@@ -102,27 +101,31 @@ const ContasReceberGrafico = () => {
         var ano = moment().format('YYYY');
         var mes = moment().format('MM');
         const usuario = localStorage.getItem('@usuario');
-        setUsuario(JSON.parse(usuario).token);
-        const config2 = {
-            method: 'GET',
-            url: api.url_api + `/grafico/contasReceber/${ano}/${mes}`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
-            },
-        }
-        try {
-            const resposta2 = await axios(config2);
-            if (resposta2.status == 200) {
-                var data2 = [];
-                for (var i = 0; i < resposta2.data.length; i++) {
-                    data2.push([`${resposta2.data[i].nome}`, Number(resposta2.data[i].valor)]);
-                }
-                data2.unshift(["Nome", "Valor"])
-                setLancamentoReceber(data2);
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            setUsuario(JSON.parse(usuario).token);
+            const config2 = {
+                method: 'GET',
+                url: api.url_api + `/grafico/contasReceber/${ano}/${mes}`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                },
             }
-        } catch (error) {
-            console.error(error);
-            toast.error(error.response.data.error);
+            try {
+                const resposta2 = await axios(config2);
+                if (resposta2.status == 200) {
+                    var data2 = [];
+                    for (var i = 0; i < resposta2.data.length; i++) {
+                        data2.push([`${resposta2.data[i].nome}`, Number(resposta2.data[i].valor)]);
+                    }
+                    data2.unshift(["Nome", "Valor"])
+                    setLancamentoReceber(data2);
+                }
+            } catch (error) {
+                console.error(error);
+                toast.error(error.response.data.error);
+            }
         }
     }
 

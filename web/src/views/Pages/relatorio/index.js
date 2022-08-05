@@ -37,6 +37,7 @@ const Relatorio = () => {
     const [desembro, setDesembro] = useState([]);
     const [ano, setAno] = useState(0);
 
+
     const handleCarregarAno = async () => {
         carregarJaneiro();
         carregarFevereiro();
@@ -75,257 +76,308 @@ const Relatorio = () => {
 
     const carregarJaneiro = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/01`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/01`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setJaneiro(resposta.data)
-            }
-        } catch (error) {
-            console.log(error)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setJaneiro(resposta.data)
+                }
+            } catch (error) {
+                console.log(error)
 
-            toast.error(error.response.data.error);
+                toast.error(error.response.data.error);
+            }
         }
+
     }
 
     const carregarFevereiro = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/02`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/02`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setFevereiro(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setFevereiro(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarMarco = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/03`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/03`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setMarco(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setMarco(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
 
     const carregarAbril = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/04`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/04`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setAbril(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setAbril(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarMaio = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/05`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/05`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setMaio(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setMaio(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarJunho = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/06`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/06`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setJunho(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setJunho(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarJulho = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/07`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/07`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setJulho(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setJulho(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarAgosto = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/08`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/08`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setAgosto(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setAgosto(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarSetembro = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/09`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/09`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setSetembro(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setSetembro(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarOutubro = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/10`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/10`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
             }
-        }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setOutubro(resposta.data)
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setOutubro(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        } catch (error) {
-            toast.error(error.response.data.error);
         }
     }
 
     const carregarNovembro = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/11`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/11`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
+            }
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setNovembro(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
         }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setNovembro(resposta.data)
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
+
     }
 
     const carregarDesembro = async () => {
         var usuario = localStorage.getItem('@usuario');
-        var anoAtual = moment().format('YYYY');
-        var anoCerto = ano == 0 ? anoAtual : ano;
-        var config = {
-            method: 'GET',
-            url: api.url_api + `/lancamento/${anoCerto}/12`,
-            headers: {
-                Authorization: "Bearer " + JSON.parse(usuario).token
+        if (!usuario) {
+            history.push('/login');
+        } else {
+            var anoAtual = moment().format('YYYY');
+            var anoCerto = ano == 0 ? anoAtual : ano;
+            var config = {
+                method: 'GET',
+                url: api.url_api + `/lancamento/${anoCerto}/12`,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(usuario).token
+                }
+            }
+            try {
+                const resposta = await axios(config);
+                if (resposta.status == 200) {
+                    setDesembro(resposta.data)
+                }
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
         }
-        try {
-            const resposta = await axios(config);
-            if (resposta.status == 200) {
-                setDesembro(resposta.data)
-            }
-        } catch (error) {
-            toast.error(error.response.data.error);
-        }
+
     }
 
     useEffect(() => {
